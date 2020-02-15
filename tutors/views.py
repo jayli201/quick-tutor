@@ -3,4 +3,4 @@ from django.views import generic
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'tutors/home.html')
+    return render(request, 'tutors/home.html') 
