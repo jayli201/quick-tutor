@@ -1,9 +1,15 @@
-{% block title %}Signup Form{% endblock %}
- 
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Student Signup Form</title>
+</head>
+<h1>Student Signup Form</h1>
 {% block body %}
-<form action="{% url 'home' %}" method="POST">
+<p ALIGN="center"><form action="{% url 'home' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" />
+
+    <button type="submit" class="btn btn-success">Login</button>
 </form>
-{% endblock %}
+{% endblock %}</p>
