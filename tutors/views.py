@@ -7,3 +7,6 @@ def home(request):
 
 def profile(request):
     return render(request, 'tutors/profile.html')
+
+def signup(request):
+    return render(request, 'tutors/signup.html')
