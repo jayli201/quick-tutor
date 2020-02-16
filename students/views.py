@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from polls.forms import SuggestionsForm
 
 
 def index(request):
