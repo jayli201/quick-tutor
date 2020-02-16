@@ -19,3 +19,9 @@ def signup_form(request):
     else:
         form = StudentSignupForm()
     return render(request, 'students/signup.html', {'form': form})
+    
+def search(request):
+    return render(request, 'students/search.html')
+
+def profile(request):
+    return render(request, 'students/profile.html')
