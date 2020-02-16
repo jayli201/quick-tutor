@@ -8,3 +8,8 @@ def landing(request):
 def home(request):
     return render(request, 'students/home.html')
 
+def search(request):
+    return render(request, 'students/search.html')
+
+def profile(request):
+    return render(request, 'students/profile.html')
