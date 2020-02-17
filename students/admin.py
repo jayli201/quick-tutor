@@ -4,8 +4,7 @@ from .models import StudentSignup
  
  
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('phone_num', 'classes')
-    # list_filter = ('phone_num', 'classes',)
+    list_display = ('phone_number', 'classes')
  
     class Meta:
         model = StudentSignup
