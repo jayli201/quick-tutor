@@ -7,8 +7,13 @@ from .forms import TutorSignupForm
 def home(request):
     return render(request, 'tutors/home.html') 
 
-def profile(request):
-    return render(request, 'tutors/profile.html')
+class ProfileView(generic.ListView):
+    template_name = 'tutors/profile.html'
+    context_object_name = 'profile_list'
+
+    def get_queryset(self):
+        return TutorSignup.objects.all()
+
 
 def signup_form(request):
     if request.method == 'POST':
@@ -24,7 +29,7 @@ def signup_form(request):
             user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method)
             user_object.save()
         
-        return render(request, 'tutors/profile.html')
+        return render(request, 'tutors/home.html')
 
     else:
         form = TutorSignupForm()
