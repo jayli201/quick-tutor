@@ -10,4 +10,4 @@ class FeedbackAdmin(admin.ModelAdmin):
         model = StudentSignup
  
  
-admin.site.register(StudentSignup, FeedbackAdmin)
+admin.site.register(StudentSignup)
