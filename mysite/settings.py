@@ -31,9 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'students',
-    'tutors',
-    'crispy_forms',
+
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # django pip apps
+    'crispy_forms',
 
+    # our apps
+    'students',
+    'tutors', 
 
     # allauth
     'allauth',
@@ -138,3 +142,5 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
+
+LOGIN_REDIRECT_URL = ''
