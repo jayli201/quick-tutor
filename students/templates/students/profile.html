@@ -18,6 +18,17 @@
   <br />
   <body>
     <p>this is your profile</p>
+    {% if profile_list %}
+    <ul class="list-group">
+      {% for p in profile_list %}
+      <li class="list-group-item">{{p.classes}}</li>
+      <li class="list-group-item">{{p.phone_number}}</li>
+      <p>end of one profile</p>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>nothing in database</p>
+    {% endif %}
   </body>
 </html>
 
