@@ -6,4 +6,4 @@ from .models import StudentSignup
 class StudentSignupForm(forms.ModelForm):
     class Meta:
         model = StudentSignup
-        exclude = []
+        fields = ('phone_number', 'classes')
