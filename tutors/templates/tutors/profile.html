@@ -6,18 +6,61 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'tutors/style.css' %}"
-    />
-    <link
+      href="{% static 'tutors/format.css' %}"/> 
+    <link 
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous"/>
+    <link  
+      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   </head>
   <br />
   <body>
-    <p>this is your profile</p>
+    {% if profile_list %}
+    <ul class="list-group">
+      {% for p in profile_list %}
+      <div class="panel panel-info">      
+        <div class="panel-heading">
+          <h3 class="panel-title" style="text-align:center">Name Goes Here</h3>
+        </div>          
+        <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" class="img-circle img-responsive"> </div>
+        <div class=" col-md-9 col-lg-9 ">         
+          <table class="table table-user-information">
+            <tbody>
+              <tr>
+                <td style="text-align:center">Subjects:</td>
+                <td style="text-align:center">{{p.subjects}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Classes:</td>
+                <td style="text-align:center">{{p.classes}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Rate (per hour)</td>
+                <td style="text-align:center">${{p.pay}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Preferred Method of Payment</td>
+                <td style="text-align:center">{{p.payment_method}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Phone Number</td>
+                <td style="text-align:center">{{p.phone_number}}
+                </td>
+              </tr>
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>nothing in database</p>
+    {% endif %}
   </body>
 </html>
 
