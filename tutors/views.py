@@ -14,6 +14,25 @@ class ProfileView(generic.ListView):
     def get_queryset(self):
         return TutorSignup.objects.all()
 
+def edit_form(request):
+    if request.method == 'POST':
+        form = TutorSignupForm(request.POST)
+        if form.is_valid():
+            phone = request.POST['phone_number']
+            classes = request.POST['classes']
+            subjects = request.POST['subjects']            
+            pay = request.POST['pay']
+            payment_method = request.POST['payment_method']
+
+            user = TutorSignup.objects.first()
+            user.phone = phone
+            user.save()
+        
+        return render(request, 'tutors/profile.html')
+
+    else:
+        form = TutorSignupForm()
+    return render(request, 'tutors/profile.html', {'form': form}) 
 
 def signup_form(request):
     if request.method == 'POST':
