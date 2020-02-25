@@ -3,21 +3,58 @@
 <html>
   {% load static %}
   <head>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
     <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css"
       rel="stylesheet"
-      type="text/css"
-      href="{% static 'students/format.css' %}"
     />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+    <style>
+      #map {
+        position: absolute;
+        width: 100%;
+      }
+    </style>
   </head>
-  <br />
   <body>
-    <p>hi students</p>
+    <style>
+      .mapboxgl-marker {
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+      }
+    </style>
+
+    <div id="map" style="width: 100%; height: 80%;"></div>
+    <script>
+      var ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
+      if (navigator.geolocation) {
+        // getting current position and creating a map centered at current position
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            mapboxgl.accessToken = ACCESS_TOKEN;
+
+            var map = new mapboxgl.Map({
+              container: "map",
+              style: "mapbox://styles/mapbox/streets-v11",
+              center: [position.coords.longitude, position.coords.latitude],
+              zoom: 14
+            });
+
+            // adding a marker indicating your location
+            var marker = new mapboxgl.Marker()
+              .setLngLat([position.coords.longitude, position.coords.latitude])
+              .addTo(map);
+          },
+          function(error) {
+            alert("Enable location services.");
+          },
+          { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
+        );
+      } else {
+        alert("Location services not available.");
+      }
+    </script>
   </body>
 </html>
 

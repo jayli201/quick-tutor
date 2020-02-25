@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     # providers
     'allauth.socialaccount.providers.google',
 
+    # maps
+    'leaflet'
 
 ]
 

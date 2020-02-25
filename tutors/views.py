@@ -4,8 +4,14 @@ from django.shortcuts import render
 from .models import TutorSignup
 from .forms import TutorSignupForm
 
+# getting the secret access token from .env file
+from dotenv import load_dotenv
+load_dotenv()
+import os
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+
 def home(request):
-    return render(request, 'tutors/home.html') 
+    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
 
 class ProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
