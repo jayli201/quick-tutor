@@ -7,11 +7,11 @@ class BasicTestCase(TestCase):
 
 class StudentSignUpTestCase(TestCase):
     def setUp(self):
-        StudentSignup.objects.create(phone_number="1234567890", classes="CS 3240")
+        StudentSignup.objects.create(phone_number="123-456-7890", classes="CS 3240")
         StudentSignup.objects.create(phone_number="5", classes="")
 
     def test_students(self):
-        student = StudentSignup.objects.get(phone_number="1234567890")
+        student = StudentSignup.objects.get(phone_number="123-456-7890")
         blank = StudentSignup.objects.get(phone_number="5")
         self.assertEqual(student.classes, "CS 3240")
         self.assertEqual(blank.classes, "")
