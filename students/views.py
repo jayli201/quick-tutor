@@ -7,8 +7,14 @@ from .forms import StudentSignupForm
 def landing(request):
     return render(request, 'students/landing.html') 
 
+# getting the secret access token from .env file
+from dotenv import load_dotenv
+load_dotenv()
+import os
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+
 def home(request):
-    return render(request, 'students/home.html')
+    return render(request, 'students/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
 
 def signup_form(request):
     if request.method == 'POST':
