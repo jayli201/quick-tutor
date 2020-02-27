@@ -25,7 +25,7 @@ SECRET_KEY = 'vz19e=64((eeiwc*fw)v%0!)_@-sbdekfboi@g=wj9x1ih-3ff'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['studybuddyqt.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['studybuddyqt.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
