@@ -3,24 +3,32 @@
   <head>
     <link
       rel="stylesheet"
+      type="text/css"
+      href="{% static 'students/format.css' %}"
+    />
+    <link
+      rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
   </head>
-  <header class="polls-header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="nav-link" href="/students">home</a>
-      <a class="nav-link" href="/students/search">search</a>
-      <a class="nav-link" href="/students/profile">my profile</a>
-    </nav>
-  </header>
-  <br />
-  <body>
-    {% block content %} {% endblock %}
-  </body>
-  <footer>
-    <div>footer:</div>
-    <div>Quick Tutor | @ 2020</div>
-  </footer>
+  <div id="page">
+    <div id="wrapper">
+      <header class="polls-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="nav-link" href="/students">home</a>
+          <a class="nav-link" href="/students/search">search</a>
+          <a class="nav-link" href="/students/profile">my profile</a>
+        </nav>
+      </header>
+      <br />
+      <body>
+        {% block content %} {% endblock %}
+      </body>
+    </div>
+    <footer>
+      Quick Tutor | @ 2020
+    </footer>
+  </div>
 </html>

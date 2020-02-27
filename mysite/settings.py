@@ -31,15 +31,33 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'students',
-    'tutors',
-    'crispy_forms',
+
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # django pip apps
+    'crispy_forms',
+
+    # our apps
+    'students',
+    'tutors', 
+
+    # allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
+    # maps
+    'leaflet'
+
 ]
 
 MIDDLEWARE = [
@@ -66,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -84,6 +103,16 @@ DATABASES = {
     }
 }
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '768033541909-kqphikbmel0dvlq0f29h11q0c0i1i3oj.apps.googleusercontent.com',
+            'secret': '1Y6HzM63ZwnEeRS4dLblx4tG',
+            'key': ''
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -128,6 +157,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
