@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
 
     # django pip apps
     'crispy_forms',
@@ -49,12 +48,12 @@ INSTALLED_APPS = [
     'tutors', 
 
     # allauth
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
-    # providers
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 
     # maps
     'leaflet'
@@ -84,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -102,6 +102,16 @@ DATABASES = {
     }
 }
 
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '768033541909-kqphikbmel0dvlq0f29h11q0c0i1i3oj.apps.googleusercontent.com',
+            'secret': '1Y6HzM63ZwnEeRS4dLblx4tG',
+            'key': ''
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -145,4 +155,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
