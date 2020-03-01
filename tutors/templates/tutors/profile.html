@@ -35,7 +35,7 @@
           </div>
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" method="POST" action="">
+            <form id="edit" role="form" method="POST" action="/tutors/edit">
               {% csrf_token %}
               {% for p in profile_list %}
               <div class="form-group">
@@ -51,21 +51,23 @@
                 </div>
               </div>
               <!--Add the scroll down bar here-->
-              <label>Subjects</label>
-              <select id = "subjects" value="{{p.subjects}}">
-               <option value = "science">science</option>
-               <option value = "math">math</option>
-               <option value = "english">english</option>
-             </select>
+              <div class="form-group">
+                <label for="subjects">Subjects</label>
+                <select name="subjects" value="{{p.subjects}}">
+                  <option value = "science">science</option>
+                  <option value = "math">math</option>
+                  <option value = "english">english</option>
+                </select>
+              </div>
               <div class="form-group">
                 <label class="pay">Pay</label>
                 <div>
                   <input type="text" class="form-control input-lg" name="pay" value="{{p.pay}}">
                 </div>
               </div>
-              <div>
-              <label>Payment Method</label>
-              <select id = "payment_method" value="{{p.payment_method}}">
+              <div class="form-group">
+              <label for="payment_method">Payment Method</label>
+              <select name="payment_method" value="{{p.payment_method}}">
                <option value = "venmo">venmo</option>
                <option value = "cash">cash</option>
                <option value = "paypal">paypal</option>
@@ -78,7 +80,6 @@
         </div>
       </div>
     </div>
-    
   </div>
     <p>this is your profile</p>
     {% if profile_list %}
