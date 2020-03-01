@@ -12,3 +12,5 @@ deploy:
     provider: heroku
     api_key:
         secure: a2297535-14b9-4433-b91e-beef49b4a7a9
+    app:
+        test: studybuddyqt
