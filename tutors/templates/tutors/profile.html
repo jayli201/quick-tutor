@@ -10,15 +10,70 @@
     <link 
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"/>
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
     <link  
       href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    
   </head>
   <br />
   <body>
+    <!--Modal Stuff-->
+    <div class="modal" id="edit">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form id="edit" role="form" method="POST" action="/tutors/edit">
+              {% csrf_token %}
+              {% for p in profile_list %}
+              <div class="form-group">
+                <label class="phone_number">Phone Number</label>
+                <div>
+                  <input type="text" class="form-control input-lg" name="phone_number" value="{{p.phone_number}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="classes">Classes</label>
+                <div>
+                  <input type="text-box" class="form-control input-lg" name="classes" value="{{p.classes}}">
+                </div>
+              </div>
+              <!--Add the scroll down bar here-->
+              <div class="form-group">
+                <label for="subjects">Subjects</label>
+                <select name="subjects" value="{{p.subjects}}">
+                  <option value = "science">science</option>
+                  <option value = "math">math</option>
+                  <option value = "english">english</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="pay">Pay</label>
+                <div>
+                  <input type="text" class="form-control input-lg" name="pay" value="{{p.pay}}">
+                </div>
+              </div>
+              <div class="form-group">
+              <label for="payment_method">Payment Method</label>
+              <select name="payment_method" value={{p.payment_method}}>
+               <option value = "venmo">venmo</option>
+               <option value = "cash">cash</option>
+               <option value = "paypal">paypal</option>
+             </select>
+            </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-success">Make Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     {% if profile_list %}
     <ul class="list-group">
       {% for p in profile_list %}
@@ -51,7 +106,16 @@
                 <td style="text-align:center">{{p.phone_number}}
                 </td>
               </tr>
-            
+              <tr>
+                <td>
+                </td>
+                <td align="right">
+                  <!--Modal button-->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
+                    Edit Profile
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import render
 from .models import StudentSignup
 from .forms import StudentSignupForm
+from django.shortcuts import redirect
 
 def landing(request):
     return render(request, 'students/landing.html') 
@@ -15,6 +16,19 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 def home(request):
     return render(request, 'students/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
+
+def edit_form(request):
+    if request.method == 'POST':
+        phone = request.POST['phone_number']
+        classes = request.POST['classes']
+        user = StudentSignup.objects.get(pk=1)
+        user.phone_number = phone
+        user.classes = classes
+        user.save()
+        return redirect('/students/profile')
+    else:
+        form = StudentSignupForm()
+    return render(request, 'students/edit.html', {'form': form})
 
 def signup_form(request):
     if request.method == 'POST':
