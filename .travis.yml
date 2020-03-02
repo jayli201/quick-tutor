@@ -1,0 +1,16 @@
+language: python
+python: 
+    - '3.8.1'
+
+install: 
+    - pip install -r requirements.txt
+
+script:
+    - python manage.py test
+
+deploy:
+    provider: heroku
+    api_key:
+        secure: a2297535-14b9-4433-b91e-beef49b4a7a9
+    app:
+        master: studybuddyqt
