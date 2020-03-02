@@ -3,21 +3,93 @@
 <html>
   {% load static %}
   <head>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'tutors/style.css' %}"
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
     <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css"
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
     />
+    <style>
+      #map {
+        /* position: absolute; */
+        width: 100%;
+      }
+    </style>
   </head>
-  <br />
   <body>
-    <p>hi tutors</p>
+    <style>
+      .mapboxgl-marker {
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+      }
+      .coordinates {
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        position: absolute;
+        bottom: 25px;
+        left: 15px;
+        padding: 5px 10px;
+        margin: 0;
+        font-size: 11px;
+        line-height: 18px;
+        border-radius: 3px;
+        display: none;
+      }
+    </style>
+
+    <pre id="coordinates" class="coordinates"></pre>
+    <div id="map" style="width: 100%; height: 80%;"></div>
+    <script>
+      var ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
+      var coordinates = document.getElementById("coordinates");
+
+      if (navigator.geolocation) {
+        // getting current position and creating a map centered at current position
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            mapboxgl.accessToken = ACCESS_TOKEN;
+
+            var long = position.coords.longitude;
+            var lat = position.coords.latitude;
+
+            var map = new mapboxgl.Map({
+              container: "map",
+              style: "mapbox://styles/mapbox/streets-v11",
+              center: [long, lat],
+              zoom: 14
+            });
+
+            // adding a marker indicating your location
+            var marker = new mapboxgl.Marker({
+              draggable: true
+            })
+              .setLngLat([long, lat])
+              .addTo(map);
+
+            // can drag the marker to your actual location and displays lat, long
+            function onDragEnd() {
+              var lngLat = marker.getLngLat();
+              coordinates.style.display = "block";
+              coordinates.innerHTML =
+                "Longitude: " + lngLat.lng + "<br />Latitude: " + lngLat.lat;
+            }
+            marker.on("dragend", onDragEnd);
+          },
+          function(error) {
+            alert("Enable location services.");
+          },
+          { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
+        );
+      } else {
+        alert("Location services not available.");
+      }
+    </script>
   </body>
 </html>
 

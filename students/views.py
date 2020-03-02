@@ -7,8 +7,14 @@ from .forms import StudentSignupForm
 def landing(request):
     return render(request, 'students/landing.html') 
 
+# getting the secret access token from .env file
+from dotenv import load_dotenv
+load_dotenv()
+import os
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+
 def home(request):
-    return render(request, 'students/home.html')
+    return render(request, 'students/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
 
 def signup_form(request):
     if request.method == 'POST':
@@ -29,5 +35,9 @@ def signup_form(request):
 def search(request):
     return render(request, 'students/search.html')
 
-def profile(request):
-    return render(request, 'students/profile.html')
+class ProfileView(generic.ListView):
+    template_name = 'students/profile.html'
+    context_object_name = 'profile_list'
+
+    def get_queryset(self):
+        return StudentSignup.objects.all()
