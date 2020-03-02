@@ -10,7 +10,7 @@
     <link 
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
     <link  
       href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
@@ -18,22 +18,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    
   </head>
   <br />
   <body>
-    <!--Modal Button-->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">
-      Edit Profile
-    </button>
     <!--Modal Stuff-->
     <div class="modal" id="edit">
       <div class="modal-dialog">
         <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Edit Profile</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
           <!-- Modal body -->
           <div class="modal-body">
             <form id="edit" role="form" method="POST" action="/tutors/edit">
@@ -68,7 +60,7 @@
               </div>
               <div class="form-group">
               <label for="payment_method">Payment Method</label>
-              <select name="payment_method" value="{{p.payment_method}}">
+              <select name="payment_method" value={{p.payment_method}}>
                <option value = "venmo">venmo</option>
                <option value = "cash">cash</option>
                <option value = "paypal">paypal</option>
@@ -114,7 +106,16 @@
                 <td style="text-align:center">{{p.phone_number}}
                 </td>
               </tr>
-            
+              <tr>
+                <td>
+                </td>
+                <td align="right">
+                  <!--Modal button-->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
+                    Edit Profile
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

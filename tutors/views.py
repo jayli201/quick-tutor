@@ -39,7 +39,7 @@ def edit_form(request):
         return redirect('profile')
     else:
         form = TutorSignupForm()
-    return render(request, 'tutors/edit_form.html', {'form': form})
+    return render(request, 'tutors/edit.html', {'form': form})
 
 def signup_form(request):
     if request.method == 'POST':
