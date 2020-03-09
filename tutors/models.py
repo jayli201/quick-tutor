@@ -20,6 +20,9 @@ class TutorSignup(models.Model):
     subjects = models.CharField(max_length=120, choices=SUBJECT_CHOICES, default="")
     pay = models.CharField(max_length=12, default="")
     payment_method = models.CharField(max_length=120, choices=PAY_CHOICES, default="")
+    longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         if self.phone_number==None:

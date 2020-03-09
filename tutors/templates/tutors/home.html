@@ -13,9 +13,10 @@
       href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
       #map {
-        /* position: absolute; */
         width: 100%;
       }
     </style>
@@ -43,7 +44,10 @@
       }
     </style>
 
-    <pre id="coordinates" class="coordinates"></pre>
+    <pre type="hidden" id="coordinates" class="coordinates"></pre>
+    <input type="hidden" name="long" id="long" />
+    <input type="hidden" name="lat" id="lat" />
+
     <div id="map" style="width: 100%; height: 80%;"></div>
     <script>
       var ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
@@ -71,13 +75,14 @@
             })
               .setLngLat([long, lat])
               .addTo(map);
+            document.getElementById("long").value = long;
+            document.getElementById("lat").value = lat;
 
             // can drag the marker to your actual location and displays lat, long
             function onDragEnd() {
               var lngLat = marker.getLngLat();
-              coordinates.style.display = "block";
-              coordinates.innerHTML =
-                "Longitude: " + lngLat.lng + "<br />Latitude: " + lngLat.lat;
+              document.getElementById("long").value = lngLat.lng;
+              document.getElementById("lat").value = lngLat.lat;
             }
             marker.on("dragend", onDragEnd);
           },
@@ -90,6 +95,78 @@
         alert("Location services not available.");
       }
     </script>
+    {% if my_profile %}
+    <ul class="list-group">
+      {% for p in my_profile %} Status: {{p.status}} {% endfor %}
+    </ul>
+    {% else %}
+    <p>nothing in database</p>
+    {% endif %}
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      id="activate"
+    >
+      I'm ready to tutor!
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Tutoring status
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Is the marker at your current location?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              No - I will move the marker!
+            </button>
+            <!-- form to submit current location -->
+            <form action="/tutors/activate" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="long_form" id="long_form" />
+              <input type="hidden" name="lat_form" id="lat_form" />
+              <button type="submit" class="btn btn-primary" value="Submit">
+                Yes - I'm ready to tutor!
+              </button>
+            </form>
+            <!-- script to grab current coordinates from html element -->
+            <script>
+              $("#activate").click(function() {
+                var long = $("#long").val();
+                var lat = $("#lat").val();
+                document.getElementById("long_form").value = long;
+                document.getElementById("lat_form").value = lat;
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
 
