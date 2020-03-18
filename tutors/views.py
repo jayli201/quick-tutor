@@ -13,7 +13,13 @@ import os
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 def home(request):
-    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
+    user = TutorSignup.objects.first()
+    status = user.status
+
+    print(user)
+    print(status)
+
+    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
 
 class ProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
@@ -21,13 +27,6 @@ class ProfileView(generic.ListView):
 
     def get_queryset(self):
         return TutorSignup.objects.all()
-
-class status(generic.ListView):
-    template_name = 'tutors/home.html'
-    context_object_name = 'my_profile'
-
-    def get_queryset(self):
-        return TutorSignup.objects.first()
 
 def activate(request):
     if request.method == 'POST':
@@ -37,6 +36,15 @@ def activate(request):
         user.longitude = longitude
         user.latitude = latitude
         user.status = True
+        user.save()
+        return HttpResponseRedirect('/tutors/')
+
+def deactivate(request):
+    if request.method == 'POST':
+        user = TutorSignup.objects.first()
+        user.longitude = None
+        user.latitude = None
+        user.status = False
         user.save()
         return HttpResponseRedirect('/tutors/')
 
