@@ -53,10 +53,8 @@
         navigator.geolocation.getCurrentPosition(
           function(position) {
             mapboxgl.accessToken = ACCESS_TOKEN;
-
             var long = position.coords.longitude;
             var lat = position.coords.latitude;
-
             var map = new mapboxgl.Map({
               container: "map",
               style: "mapbox://styles/mapbox/streets-v11",
@@ -69,9 +67,27 @@
               draggable: true
             })
               .setLngLat([long, lat])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }).setHTML("<div>" + "You")
+              )
               .addTo(map);
 
-            // can drag the marker to your actual location and displays lat, long
+            // mapping all the active tutors
+            let tutors_list = "{{tutors_list|safe}}";
+            let tutors = eval(tutors_list);
+            tutors.map(tutor => {
+              var coord = [tutor.longitude, tutor.latitude];
+              let marker = new mapboxgl.Marker()
+                .setLngLat(coord)
+                .setPopup(
+                  new mapboxgl.Popup({ offset: 25 }).setHTML(
+                    "<div>" + tutor.phone
+                  )
+                )
+                .addTo(map);
+            });
+
+            // can drag the marker to your actual location
             function onDragEnd() {
               var lngLat = marker.getLngLat();
             }

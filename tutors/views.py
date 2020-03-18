@@ -15,10 +15,6 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 def home(request):
     user = TutorSignup.objects.first()
     status = user.status
-
-    print(user)
-    print(status)
-
     return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
 
 class ProfileView(generic.ListView):
