@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 
 def landing(request):
     return render(request, 'students/landing.html') 
+    #small cgange
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
