@@ -74,6 +74,9 @@
               draggable: true
             })
               .setLngLat([long, lat])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }).setHTML("<div>" + "You")
+              )
               .addTo(map);
             document.getElementById("long").value = long;
             document.getElementById("lat").value = lat;
