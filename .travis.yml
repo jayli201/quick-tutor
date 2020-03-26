@@ -13,6 +13,6 @@ script:
 deploy:
     provider: heroku
     api_key:
-        secure: a2297535-14b9-4433-b91e-beef49b4a7a9
+        secure: ec8a84d6-1e62-4c22-9689-d003b980b46f
     app:
         master: studybuddyqt
