@@ -1,15 +1,58 @@
 <!doctype html>
 <div style='text-align:center'>
+
+  
 <html lang="en">
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Student Signup Form</title>
 </head>
+<style>
+  #body {
+padding-left: 15%;
+padding-right: 15%;
+background-color: #99ccff;
+/*background-color: #84b3ff;*/
+/*background-color: #999999;*/
+}
+
+#button{
+background-color: #3870ff;
+}
+
+footer {
+position: absolute;
+bottom: 0;
+height: 2rem;
+background-color: #c3c3c3;
+color: white;
+text-align: center;
+width:100%;
+}
+
+#page {
+position: relative;
+}
+
+#wrapper {
+padding-bottom: 2.5rem;
+/*height: 100vh;*/
+background-color: #eeeeee; 
+}
+
+</style>
+<div id="page">
+  <div id="wrapper">
+    <body id="body">
 <h1>Student Signup Form</h1>
 {% block body %}
 <p ALIGN="center"><form action="/students/signup" method="POST">
     {% csrf_token %}
     <p ALIGN="center">{{ form.as_p }}</p>
-    <button type="submit" class="btn btn-success">Submit</button>
-</form></div>
+    <button id="button" type="submit" class="btn btn-success">Submit</button>
+</form>
 {% endblock %}</p>
+</body>
+</div>
+  </div>
+</html>
