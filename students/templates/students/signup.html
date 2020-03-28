@@ -1,15 +1,30 @@
 <!doctype html>
 <div style='text-align:center'>
+
+  
 <html lang="en">
+  {% load static %}
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'students/format.css' %}"
+    />
     <title>Student Signup Form</title>
 </head>
+<div id="page">
+  <div id="wrapper" style="padding-top:10%">
+    <body id="body">
 <h1>Student Signup Form</h1>
 {% block body %}
 <p ALIGN="center"><form action="/students/signup" method="POST">
     {% csrf_token %}
     <p ALIGN="center">{{ form.as_p }}</p>
-    <button type="submit" class="btn btn-success">Submit</button>
-</form></div>
+    <button style="background-color: #3870ff;" id="button" type="submit" class="btn btn-success">Submit</button>
+</form>
 {% endblock %}</p>
+</body>
+</div>
+  </div>
+</html>
