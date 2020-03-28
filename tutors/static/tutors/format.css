@@ -1,23 +1,26 @@
-body {
-  padding-left: 250px;
-  padding-right: 250px;
+#body {
+  padding-left: 15%;
+  padding-right: 15%;
+  background-color: #70a0d0;
 }
 
 footer {
   position: absolute;
   bottom: 0;
-  width: 100%;
   height: 2rem;
-  background-color: #d3d3d3;
+  background-color: #c3c3c3;
   color: white;
   text-align: center;
+  width:100%;
 }
 
 #page {
   position: relative;
   min-height: 100vh;
+  background-color: #eeeeee;
 }
 
 #wrapper {
-  padding-bottom: 2.5rem;
+  padding-bottom: 2rem;
 }
+
