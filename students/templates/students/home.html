@@ -15,7 +15,6 @@
     />
     <style>
       #map {
-        /* position: absolute; */
         width: 100%;
       }
     </style>
@@ -43,7 +42,7 @@
       }
     </style>
 
-    <pre id="coordinates" class="coordinates"></pre>
+    <pre type="hidden" id="coordinates" class="coordinates"></pre>
     <div id="map" style="width: 100%; height: 80%;"></div>
     <script>
       var ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
@@ -54,10 +53,8 @@
         navigator.geolocation.getCurrentPosition(
           function(position) {
             mapboxgl.accessToken = ACCESS_TOKEN;
-
             var long = position.coords.longitude;
             var lat = position.coords.latitude;
-
             var map = new mapboxgl.Map({
               container: "map",
               style: "mapbox://styles/mapbox/streets-v11",
@@ -70,14 +67,29 @@
               draggable: true
             })
               .setLngLat([long, lat])
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }).setHTML("<div>" + "You")
+              )
               .addTo(map);
 
-            // can drag the marker to your actual location and displays lat, long
+            // mapping all the active tutors
+            let tutors_list = "{{tutors_list|safe}}";
+            let tutors = eval(tutors_list);
+            tutors.map(tutor => {
+              var coord = [tutor.longitude, tutor.latitude];
+              let marker = new mapboxgl.Marker()
+                .setLngLat(coord)
+                .setPopup(
+                  new mapboxgl.Popup({ offset: 25 }).setHTML(
+                    "<div>" + tutor.phone
+                  )
+                )
+                .addTo(map);
+            });
+
+            // can drag the marker to your actual location
             function onDragEnd() {
               var lngLat = marker.getLngLat();
-              coordinates.style.display = "block";
-              coordinates.innerHTML =
-                "Longitude: " + lngLat.lng + "<br />Latitude: " + lngLat.lat;
             }
             marker.on("dragend", onDragEnd);
           },

@@ -1,6 +1,6 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views import generic
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import TutorSignup
 from .forms import TutorSignupForm
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +13,9 @@ import os
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 def home(request):
-    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN}) 
+    user = TutorSignup.objects.first()
+    status = user.status
+    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
 
 class ProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
@@ -21,6 +23,26 @@ class ProfileView(generic.ListView):
 
     def get_queryset(self):
         return TutorSignup.objects.all()
+
+def activate(request):
+    if request.method == 'POST':
+        longitude = request.POST.get('long_form')
+        latitude = request.POST.get('lat_form')
+        user = TutorSignup.objects.first()
+        user.longitude = longitude
+        user.latitude = latitude
+        user.status = True
+        user.save()
+        return HttpResponseRedirect('/tutors/')
+
+def deactivate(request):
+    if request.method == 'POST':
+        user = TutorSignup.objects.first()
+        user.longitude = None
+        user.latitude = None
+        user.status = False
+        user.save()
+        return HttpResponseRedirect('/tutors/')
 
 def edit_form(request):
     if request.method == 'POST':
