@@ -22,3 +22,4 @@ deploy:
         secure: ec8a84d6-1e62-4c22-9689-d003b980b46f
     app:
         master: studybuddyqt
+    skip_cleanup: true
