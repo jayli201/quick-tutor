@@ -8,6 +8,9 @@ install:
 services:
   - postgresql
 
+before_script:
+  - psql -c 'create database studyproject;' -U postgres
+
 script:
     - python manage.py makemigrations
     - python manage.py migrate
