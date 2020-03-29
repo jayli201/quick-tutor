@@ -73,7 +73,7 @@ def signup_form(request):
             subjects = request.POST['subjects']            
             pay = request.POST['pay']
             payment_method = request.POST['payment_method']
-            user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method)
+            user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
             user_object.save()
         
         return render(request, 'tutors/home.html')
