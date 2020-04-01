@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django.conf import settings
 
 SUBJECT_CHOICES = (
     ('science','science'),
@@ -15,6 +16,7 @@ PAY_CHOICES = (
 
 
 class TutorSignup(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=12, default="")
     classes = models.TextField(max_length=120, default="")
     subjects = models.CharField(max_length=120, choices=SUBJECT_CHOICES, default="")

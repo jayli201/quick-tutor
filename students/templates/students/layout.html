@@ -19,6 +19,9 @@
   <div id="page">
     <div id="wrapper">
       <header class="polls-header">
+      {% if user.is_authenticated %}
+      <p>Welcome {{user.username}}!</p>
+      {% endif %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="nav-link" href="/students">home</a>
           <a class="nav-link" href="/students/search">search</a>
