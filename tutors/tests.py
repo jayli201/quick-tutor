@@ -17,3 +17,28 @@ class TutorSignUpTestCase(TestCase):
         self.assertEqual(bad.subjects, "")
         self.assertEqual(bad.pay, "0")
         self.assertEqual(bad.payment_method, "")
+
+class GPSTestCase(TestCase):
+    def setUp(self):
+        TutorSignup.objects.create(phone_number="555-555-5555", classes="CS 2150", subjects="science", pay="1", payment_method="venmo")
+        tutor = TutorSignup.objects.get(phone_number="555-555-5555")
+        tutor.longitude=5.5
+        tutor.latitude=4.4
+        tutor.save()
+
+    def test_gps(self):
+        tutor = TutorSignup.objects.get(phone_number="555-555-5555")
+        self.assertEqual(tutor.longitude,5.5)
+        self.assertGreater(tutor.latitude,4.39)
+        self.assertGreater(4.41,tutor.latitude)
+
+class ActiveTestCase(TestCase):
+    def setUp(self):
+        TutorSignup.objects.create(phone_number="2", classes="CS1", subjects="science", pay="2", payment_method="venmo")
+        tutor = TutorSignup.objects.get(phone_number="2")
+        tutor.status=True
+        tutor.save()
+
+    def test_active(self):
+        tutor = TutorSignup.objects.get(phone_number="2")
+        self.assertTrue(tutor.status)
