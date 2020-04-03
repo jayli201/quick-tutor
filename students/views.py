@@ -67,6 +67,9 @@ def signup_form(request):
 def search(request):
     return render(request, 'students/search.html')
 
+def choose_signup(request):
+    return render(request, 'students/choose.html')
+
 class ProfileView(generic.ListView):
     template_name = 'students/profile.html'
     context_object_name = 'profile_list'
