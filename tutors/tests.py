@@ -48,3 +48,11 @@ class ActiveTestCase(TestCase):
     def test_active(self):
         tutor = TutorSignup.objects.get(phone_number="2")
         self.assertTrue(tutor.status)
+
+class InactiveTestCase(TestCase):
+    def setUp(self):
+        TutorSignup.objects.create(phone_number="3", classes="CS1", subjects="science", pay="2", payment_method="venmo")
+    
+    def test_inactive(self):
+        tutor = TutorSignup.objects.get(phone_number="3")
+        self.assertFalse(tutor.status)
