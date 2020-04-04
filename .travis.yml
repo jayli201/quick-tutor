@@ -1,18 +1,20 @@
 language: python
-python: 
-    - '3.8.1'
-
-install: 
-    - pip install -r requirements.txt
-
+python:
+- 3.8.1
+install:
+- pip install -r requirements.txt
+services:
+- postgresql
+before_script:
+- psql -c 'create database studyproject;' -U postgres
 script:
-    - python manage.py makemigrations --merge
-    - python manage.py migrate
-    - python manage.py test
-
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py test
 deploy:
-    provider: heroku
-    api_key:
-        secure: a2297535-14b9-4433-b91e-beef49b4a7a9
-    app:
-        master: studybuddyqt
+  provider: heroku
+  api_key:
+    secure: WdXN7EnB89AuLhWMvwf+OgbvKn5hCWMJ9VSQZ04/KwJ0ATwtmDyFgrdH28vCIU7Z7rYhwZLEZNFvCKv+TZrMQLZtyLTVm23OU1/QxGcojp1TzIagte9EOaRIAG6/QYOm+V2iH9egbvk0CdCRbor3TNIXZYRehiJxtUyyEe85SCx3vutyoPTJR3AQwyAfD/01dgd0u6j7v0DmuiAln9MRfRoo8MLa08BH530MhimQqHC3tCDU0OF9hwcYtKX8Bel/WuK6Zw2oxaVag41hMScqRG0a+Um5IBHUjs+FxOQBsAZFqUiTW5brUp8LMtXwi0zIAJnDAfEpwR3UTJ/5QTFSUUAhlaKYBAsD3SrGOnXjlheQRnsnNPbbtcaXLzQCKVz3s1ygccIcbWESjGDqNV8vpgo9bnf1AjiLs2knA18T6CZZ8LRf/YVHM3J4oyMFC3C78hO2tYBBOfbHx05Anup5PooH1GrJBxbdu5X35Y2YFUlaarsKn6yipLJMNFbK1BCKi6ogOy02P+7xwNBEFn1Nq3yTV6Lnw3pyOPpqvyRc4yBJ28GsSt91ICxSw7xljBQB6posZXUJ/DQOOhUzl6qj6kufHjUj0GmkWyb2ZW4VlL0HJ7SyHPj/wnH3qbJMWdVqhBjN2aqvtuKyEBAeTcTmKJYFXEEseRVQnjzmU9pemeo=
+  app:
+    master: studybuddyqt
+  skip_cleanup: true
