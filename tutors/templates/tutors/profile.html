@@ -18,7 +18,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    
+    <title>Tutor Profile</title>
   </head>
   <br />
   <body>
@@ -59,13 +59,13 @@
                 </div>
               </div>
               <div class="form-group">
-              <label for="payment_method">Payment Method</label>
-              <select name="payment_method" value={{p.payment_method}}>
-               <option value = "venmo">venmo</option>
-               <option value = "cash">cash</option>
-               <option value = "paypal">paypal</option>
-             </select>
-            </div>
+                <label for="payment_method">Payment Method</label>
+                <select name="payment_method" value={{p.payment_method}}>
+                  <option value = "venmo">venmo</option>
+                  <option value = "cash">cash</option>
+                  <option value = "paypal">paypal</option>
+                </select>
+              </div>
               {% endfor %}
               <button type="submit" class="btn btn-success">Make Changes</button>
             </form>
@@ -73,7 +73,6 @@
         </div>
       </div>
     </div>
-  </div>
     {% if profile_list %}
     <ul class="list-group">
       {% for p in profile_list %}
