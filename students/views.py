@@ -50,14 +50,16 @@ def edit_form(request):
 def signup_form(request):
     if request.method == 'POST':
         form = StudentSignupForm(request.POST)
-        if StudentSignup.objects.get(user=request.user):
+        try:
+            user = StudentSignup.objects.get(user=request.user)
             messages.error(request,'Student Account Already Exists For This User!')
             return redirect('/students/signup')
-        elif form.is_valid():
-            phone = request.POST['phone_number']
-            classes = request.POST['classes']
-            user_object = StudentSignup.objects.create(user=request.user, phone_number = phone, classes = classes)
-            user_object.save()
+        except StudentSignup.DoesNotExist:
+            if form.is_valid():
+                phone = request.POST['phone_number']
+                classes = request.POST['classes']
+                user_object = StudentSignup.objects.create(user=request.user, phone_number = phone, classes = classes)
+                user_object.save()
         return render(request, 'students/profile.html')
 
     else:

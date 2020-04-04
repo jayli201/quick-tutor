@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import TutorSignupForm
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -17,6 +18,10 @@ def home(request):
     user = TutorSignup.objects.get(user=request.user)
     status = user.status
     return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
+
+def logoutview(request):
+    logout(request)
+    return redirect('students.landing')
 
 class ProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
@@ -67,18 +72,19 @@ def edit_form(request):
 def signup_form(request):
     if request.method == 'POST':
         form = TutorSignupForm(request.POST)
-        if TutorSignup.objects.get(user=request.user):
+        try:
+            user = TutorSignup.objects.get(user=request.user)
             messages.error(request,'Tutor Account Already Exists For This User!')
             return redirect('/tutors/signup')
-        elif form.is_valid():
-            phone = request.POST['phone_number']
-            classes = request.POST['classes']
-            subjects = request.POST['subjects']            
-            pay = request.POST['pay']
-            payment_method = request.POST['payment_method']
-            user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method)
-            user_object.save()
-        
+        except TutorSignup.DoesNotExist: 
+            if form.is_valid():
+                phone = request.POST['phone_number']
+                classes = request.POST['classes']
+                subjects = request.POST['subjects']            
+                pay = request.POST['pay']
+                payment_method = request.POST['payment_method']
+                user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method)
+                user_object.save()
         return render(request, 'tutors/home.html')
 
     else:
