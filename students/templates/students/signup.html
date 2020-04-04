@@ -13,6 +13,14 @@
     />
     <title>Student Signup Form</title>
 </head>
+{% for message in messages %}
+{% if message.tags == "error" %}
+<div class="alert alert-danger">
+  <a class="close" href="#" data-dismiss="alert">×</a>
+    {{message}}
+</div>
+{% endif %}
+{% endfor %}
 <div id="page">
   <div id="wrapper" style="padding-top:10%">
     <body id="body">

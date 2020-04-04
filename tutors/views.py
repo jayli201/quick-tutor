@@ -2,9 +2,11 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
 from .models import TutorSignup
+from django.contrib import messages
 from .forms import TutorSignupForm
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -13,22 +15,26 @@ import os
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 def home(request):
-    user = TutorSignup.objects.first()
+    user = TutorSignup.objects.get(user=request.user)
     status = user.status
     return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
+
+def logoutview(request):
+    logout(request)
+    return redirect('students.landing')
 
 class ProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
     context_object_name = 'profile_list'
 
     def get_queryset(self):
-        return TutorSignup.objects.all()
+        return TutorSignup.objects.filter(user=self.request.user)
 
 def activate(request):
     if request.method == 'POST':
         longitude = request.POST.get('long_form')
         latitude = request.POST.get('lat_form')
-        user = TutorSignup.objects.first()
+        user = TutorSignup.objects.get(user=request.user)
         user.longitude = longitude
         user.latitude = latitude
         user.status = True
@@ -37,7 +43,7 @@ def activate(request):
 
 def deactivate(request):
     if request.method == 'POST':
-        user = TutorSignup.objects.first()
+        user = TutorSignup.objects.get(user=request.user)
         user.longitude = None
         user.latitude = None
         user.status = False
@@ -51,7 +57,7 @@ def edit_form(request):
         subjects = request.POST.get("subjects")  
         pay = request.POST['pay']
         payment_method = request.POST.get("payment_method")  
-        user = TutorSignup.objects.get(pk=1)
+        user = TutorSignup.objects.get(user=request.user)
         user.phone_number = phone
         user.classes = classes
         user.subjects = subjects
@@ -66,18 +72,22 @@ def edit_form(request):
 def signup_form(request):
     if request.method == 'POST':
         form = TutorSignupForm(request.POST)
- 
-        if form.is_valid():
-            phone = request.POST['phone_number']
-            classes = request.POST['classes']
-            subjects = request.POST['subjects']            
-            pay = request.POST['pay']
-            longitude = request.POST['longitude']
-            latitude = request.POST['latitude']
-            payment_method = request.POST['payment_method']
-            user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
-            user_object.save()
-        
+        try:
+            user = TutorSignup.objects.get(user=request.user)
+            messages.error(request,'Tutor Account Already Exists For This User!')
+            return redirect('/tutors/signup')
+        except TutorSignup.DoesNotExist: 
+            if form.is_valid():
+                phone = request.POST['phone_number']
+                classes = request.POST['classes']
+                subjects = request.POST['subjects']            
+                pay = request.POST['pay']
+                longitude = None
+                latitude = None
+                status = False
+                payment_method = request.POST['payment_method']
+                user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
+                user_object.save()
         return render(request, 'tutors/home.html')
 
     else:

@@ -11,4 +11,5 @@ urlpatterns = [
     path('students/signup', views.signup_form, name='signup_form'),
     path('students/search', views.search, name='search'),
     path('students/profile', views.ProfileView.as_view(), name='profile'),
+    path('students/choose', views.choose_signup, name='choose_signup')
 ]

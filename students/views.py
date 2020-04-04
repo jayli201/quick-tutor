@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import render
 from .models import StudentSignup
 from tutors.models import TutorSignup
+from django.contrib import messages
 from .forms import StudentSignupForm
 from django.shortcuts import redirect
 
@@ -38,7 +39,7 @@ def edit_form(request):
     if request.method == 'POST':
         phone = request.POST['phone_number']
         classes = request.POST['classes']
-        user = StudentSignup.objects.get(pk=1)
+        user = StudentSignup.objects.get(user=request.user)
         user.phone_number = phone
         user.classes = classes
         user.save()
@@ -50,13 +51,16 @@ def edit_form(request):
 def signup_form(request):
     if request.method == 'POST':
         form = StudentSignupForm(request.POST)
- 
-        if form.is_valid():
-            phone = request.POST['phone_number']
-            classes = request.POST['classes']
-            user_object = StudentSignup.objects.create(phone_number = phone, classes = classes)
-            user_object.save()
-        
+        try:
+            user = StudentSignup.objects.get(user=request.user)
+            messages.error(request,'Student Account Already Exists For This User!')
+            return redirect('/students/signup')
+        except StudentSignup.DoesNotExist:
+            if form.is_valid():
+                phone = request.POST['phone_number']
+                classes = request.POST['classes']
+                user_object = StudentSignup.objects.create(user=request.user, phone_number = phone, classes = classes)
+                user_object.save()
         return render(request, 'students/profile.html')
 
     else:
@@ -66,9 +70,12 @@ def signup_form(request):
 def search(request):
     return render(request, 'students/search.html')
 
+def choose_signup(request):
+    return render(request, 'students/choose.html')
+
 class ProfileView(generic.ListView):
     template_name = 'students/profile.html'
     context_object_name = 'profile_list'
 
     def get_queryset(self):
-        return StudentSignup.objects.all()
+        return StudentSignup.objects.filter(user=self.request.user)
