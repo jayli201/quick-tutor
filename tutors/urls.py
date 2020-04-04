@@ -1,11 +1,14 @@
 from django.urls import path
 from . import views
 
+app_name = 'tutors'
+
 urlpatterns = [
     path('edit', views.edit_form, name='edit'),
     path('', views.home, name='home'),
     path('logout', views.logoutview, name='logout'),
-    path('profile', views.ProfileView.as_view(), name='profile'),
+    path('profile/<str:username>', views.ProfileView.as_view(), name='profile'),
+    path('profile', views.ProfileView.as_view(), name='myprofile'),
     path('signup', views.signup_form, name='signup'),
     path('activate', views.activate, name='activate'),
     path('deactivate', views.deactivate, name='deactivate')

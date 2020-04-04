@@ -78,12 +78,14 @@
             let tutors_list = "{{tutors_list|safe}}";
             let tutors = eval(tutors_list);
             tutors.map(tutor => {
+              console.log(tutor)
               var coord = [tutor.longitude, tutor.latitude];
               let marker = new mapboxgl.Marker()
                 .setLngLat(coord)
                 .setPopup(
+                  // uniqueaccount = Tutor/studentsignup.objects.get(user=request.user)
                   new mapboxgl.Popup({ offset: 25 }).setHTML(
-                    "<div>" + tutor.phone + '<br> <a href="https://www.google.com/?gws_rd=ssl"> Request Tutor</a>'
+                    '<strong>' + tutor.name + '</strong><p><a href="/tutors/profile/'+ tutor.name + '" target="_blank" title="Opens in a new window">View Profile</a>'
                   )
                 )
                 .addTo(map);
