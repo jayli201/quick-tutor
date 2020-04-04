@@ -76,7 +76,7 @@ def signup_form(request):
             user = TutorSignup.objects.get(user=request.user)
             messages.error(request,'Tutor Account Already Exists For This User!')
             return redirect('/tutors/signup')
-        except TutorSignup.DoesNotExist: 
+        except TutorSignup.DoesNotExist or IntegrityError: 
             if form.is_valid():
                 phone = request.POST['phone_number']
                 classes = request.POST['classes']
@@ -86,7 +86,7 @@ def signup_form(request):
                 latitude = None
                 status = False
                 payment_method = request.POST['payment_method']
-                user_object = TutorSignup.objects.create(phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
+                user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
                 user_object.save()
         return render(request, 'tutors/home.html')
 
