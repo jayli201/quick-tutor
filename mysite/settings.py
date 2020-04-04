@@ -159,7 +159,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/students/choose'
+LOGIN_REDIRECT_URL = ''
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
