@@ -7,6 +7,7 @@ from .forms import TutorSignupForm
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -28,7 +29,12 @@ class ProfileView(generic.ListView):
     context_object_name = 'profile_list'
 
     def get_queryset(self):
-        return TutorSignup.objects.filter(user=self.request.user)
+        try:
+            request_user = User.objects.get(username=self.kwargs['username'])
+            return TutorSignup.objects.filter(user=request_user)
+        
+        except:
+            return TutorSignup.objects.filter(user=self.request.user)
 
 def activate(request):
     if request.method == 'POST':
@@ -85,6 +91,7 @@ def signup_form(request):
                 longitude = None
                 latitude = None
                 status = False
+                user = request.POST['user']
                 payment_method = request.POST['payment_method']
                 user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
                 user_object.save()

@@ -73,12 +73,19 @@
         </div>
       </div>
     </div>
+        <!--Modal Stuff pt 2-->
+        <div class="modal" id="request">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
     {% if profile_list %}
     <ul class="list-group">
       {% for p in profile_list %}
       <div class="panel panel-info">      
         <div class="panel-heading">
-          <h3 class="panel-title" style="text-align:center">Name Goes Here</h3>
+          <h3 class="panel-title" style="text-align:center">{{p.user}}</h3>
         </div>          
         <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" class="img-circle img-responsive"> </div>
         <div class=" col-md-9 col-lg-9 ">         
@@ -106,14 +113,20 @@
                 </td>
               </tr>
               <tr>
-                <td>
+                {% if user.username != p.user.username %}
+                <td align="right">
+                  <!--Modal button-->
+                  <button type="submit" class="btn btn-success">Request!</button>
                 </td>
+                {% endif %}
+                {% if user.username == p.user.username %}
                 <td align="right">
                   <!--Modal button-->
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
                     Edit Profile
                   </button>
                 </td>
+                {% endif %}
               </tr>
             </tbody>
           </table>

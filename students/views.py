@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 
 def landing(request):
     return render(request, 'students/landing.html') 
-    #small cgange
+    #small change
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -30,7 +30,7 @@ def home(request):
         tutor_long = float(longitude)
         latitude = active_tutor.latitude
         tutor_lat = float(latitude)
-        coords = '{"longitude": tutor_long, "latitude": tutor_lat, "phone": active_tutor.phone_number}'
+        coords = '{"longitude": tutor_long, "latitude": tutor_lat, "phone": active_tutor.phone_number, "name": active_tutor.user.username}'
         final_coords = eval(coords)
         tutor_coords.append(final_coords)
     return render(request, 'students/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'tutors_list': tutor_coords}) 
@@ -75,6 +75,13 @@ def choose_signup(request):
 
 class ProfileView(generic.ListView):
     template_name = 'students/profile.html'
+    context_object_name = 'profile_list'
+
+    def get_queryset(self):
+        return StudentSignup.objects.filter(user=self.request.user)
+
+class TutorProfileView(generic.ListView):
+    template_name = 'tutors/profile.html'
     context_object_name = 'profile_list'
 
     def get_queryset(self):
