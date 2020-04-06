@@ -89,6 +89,11 @@
                 </td>
                 <td align="right">
                   <!--Modal button-->
+                  {% if hasother == 'yes' %}
+                  <a type="button" class="btn btn-primary" href="{% url 'tutors:myprofile' %}">Tutor Profile</a>
+                  {%else%}
+                  <a type="button" class="btn btn-primary" href="{% url 'tutors:signup' %}">Make Tutor Profile</a>
+                  {%endif%}
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">
                   Edit Profile
                   </button>
