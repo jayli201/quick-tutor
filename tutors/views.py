@@ -100,3 +100,17 @@ def signup_form(request):
     else:
         form = TutorSignupForm()
     return render(request, 'tutors/signup.html', {'form': form}) 
+
+def send_request(request):
+    # this should be activated when the student clicks the "request" button
+    user = TutorSignup.objects.get(user=request.user)
+    user.save()
+    return redirect('profile')
+    return HttpResponseRedirect('/tutors/profile.html')
+
+def send_request(request):
+    # this should be activated when the student clicks the "request" button
+    user = TutorSignup.objects.get(user=request.user)
+    user.save()
+    return redirect('profile')
+    return HttpResponseRedirect('/tutors/profile.html')

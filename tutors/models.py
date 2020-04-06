@@ -30,3 +30,12 @@ class TutorSignup(models.Model):
         if self.phone_number==None:
             return "ERROR-NO PHONE NUMBER"
         return self.phone_number
+
+class Request(models.Model):
+    # student - this grabs the current user
+     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    #  tutor - somehow grab the tutor and show that they're the receiver of the message?
+     msg_content = models.TextField(max_length=120, default="You have a tutoring request.")
+     
+     def __str__(self):
+        return self.msg_content
