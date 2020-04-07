@@ -116,7 +116,12 @@
                 {% if user.username != p.user.username %}
                 <td align="right">
                   <!--Modal button-->
-                  <button type="submit" class="btn btn-success">Request!</button>
+                  <!-- <form method="post"> -->
+                  {% csrf_token %}
+                  <a href="{% url 'tutors:request' p.user.username %}">
+                    <button type="submit" class="btn btn-success">Request!</button>
+                  </a>
+                  <!-- </form> -->
                 </td>
                 {% endif %}
                 {% if user.username == p.user.username %}

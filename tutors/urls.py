@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile', views.ProfileView.as_view(), name='myprofile'),
     path('signup', views.signup_form, name='signup'),
     path('activate', views.activate, name='activate'),
-    path('deactivate', views.deactivate, name='deactivate')
+    path('deactivate', views.deactivate, name='deactivate'),
+    path('send_request/<str:username>', views.send_request, name='request')
 ]

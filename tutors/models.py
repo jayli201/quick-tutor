@@ -1,6 +1,11 @@
 from django.db import models
 from django import forms
 from django.conf import settings
+from django.utils import timezone
+import datetime
+from django.contrib.auth.models import User
+# from students.models import StudentSignup
+from django.utils.translation import gettext as _
 
 SUBJECT_CHOICES = (
     ('science','science'),
@@ -32,10 +37,19 @@ class TutorSignup(models.Model):
         return self.phone_number
 
 class Request(models.Model):
-    # student - this grabs the current user
-     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    #  tutor - somehow grab the tutor and show that they're the receiver of the message?
-     msg_content = models.TextField(max_length=120, default="You have a tutoring request.")
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(TutorSignup, on_delete=models.CASCADE)
+    STATUS = (
+       ('accept', _('Accept')),
+       ('deny', _('Deny')),
+       ('none', _('No choice')),
+   )
+    status = models.CharField(
+       max_length=32,
+       choices=STATUS,
+       default='none',
+   )
+    time = models.DateTimeField('time sent')
      
-     def __str__(self):
-        return self.msg_content
+    def __str__(self):
+        return self.status
