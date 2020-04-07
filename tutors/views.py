@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
-from .models import TutorSignup
+from .models import TutorSignup, Request
 from django.contrib import messages
 from .forms import TutorSignupForm
 from students import urls
@@ -10,6 +10,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 from students.models import StudentSignup
 from django.contrib.auth.models import User
+import datetime
+from django.urls import reverse
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -112,3 +114,33 @@ def signup_form(request):
     else:
         form = TutorSignupForm()
     return render(request, 'tutors/signup.html', {'form': form}) 
+
+def send_request(request, username):
+    # this should be activated when the student clicks the "request" button
+    # creates a new instance of a Request
+
+    student = User.objects.get(username=request.user.username)
+
+    request_user = User.objects.get(username=username)
+    tutor = TutorSignup.objects.get(user=request_user)
+
+    status = "None"
+    time = datetime.datetime.now()
+    r = Request.objects.create(student=student, tutor=tutor, status=status, time=time)
+    r.save()
+
+    return HttpResponseRedirect(reverse('tutors:myprofile'))
+
+
+# class RequestView(generic.ListView):
+#     # available to tutors, only show the requests assigned to them
+#     template_name = 'tutors/requests.html'
+#     context_object_name = 'requests_list'
+
+#     def get_queryset(self):
+#         try:
+#             request_user = User.objects.get(username=self.kwargs['username'])
+#             return TutorSignup.objects.filter(user=request_user)
+        
+#         except:
+#             return TutorSignup.objects.filter(user=self.request.user)

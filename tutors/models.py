@@ -1,6 +1,11 @@
 from django.db import models
 from django import forms
 from django.conf import settings
+from django.utils import timezone
+import datetime
+from django.contrib.auth.models import User
+# from students.models import StudentSignup
+from django.utils.translation import gettext as _
 
 SUBJECT_CHOICES = (
     ('science','science'),
@@ -30,3 +35,21 @@ class TutorSignup(models.Model):
         if self.phone_number==None:
             return "ERROR-NO PHONE NUMBER"
         return self.phone_number
+
+class Request(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(TutorSignup, on_delete=models.CASCADE)
+    STATUS = (
+       ('accept', _('Accept')),
+       ('deny', _('Deny')),
+       ('none', _('No choice')),
+   )
+    status = models.CharField(
+       max_length=32,
+       choices=STATUS,
+       default='none',
+   )
+    time = models.DateTimeField('time sent')
+     
+    def __str__(self):
+        return self.status
