@@ -14,4 +14,5 @@ urlpatterns = [
     path('students/profile', views.ProfileView.as_view(), name='profile'),
     path('students/choose', views.choose_signup, name='choose_signup'),
     # path('students/requests', include('django_messages.urls'),
-    path('students/signin', views.sign_in_as, name='sign_in_as')
+    path('students/signin', views.sign_in_as, name='sign_in_as'),
+]
