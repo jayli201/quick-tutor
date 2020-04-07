@@ -127,8 +127,13 @@
                 {% if user.username == p.user.username %}
                 <td align="right">
                   <!--Modal button-->
+                  {% if hasother == 'yes' %}
+                  <a type="button" class="btn btn-primary" href="{% url 'students:profile' %}">Student Profile</a>
+                  {%else%}
+                  <a type="button" class="btn btn-primary" href="{% url 'students:signup_form' %}">Make Student Profile</a>
+                  {%endif%}
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
-                    Edit Profile
+                  Edit Profile
                   </button>
                 </td>
                 {% endif %}

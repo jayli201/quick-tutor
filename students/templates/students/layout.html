@@ -26,6 +26,9 @@
           <a class="nav-link" href="/students">home</a>
           <a class="nav-link" href="/students/search">search</a>
           <a class="nav-link" href="/students/profile">my profile</a>
+          {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'students:logout'%}">Logout {{user.get_username}}</a>
+            {% endif %}
         </nav>
       </header>
       <br />
