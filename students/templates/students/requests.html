@@ -8,23 +8,20 @@
       <link
         rel="stylesheet"
         type="text/css"
-        href="{% static 'tutors/format.css' %}"
+        href="{% static 'students/format.css' %}"
       />
       <title>Current Requests</title>
     </head>
+    <script>
+      var requests_list = "{{requests_list}}";
+      console.log(requests_list);
+    </script>
     <body>
       {% for request in requests_list %}
       <div>
-        Student: {{request.student}} Status: {{request.status}} Time sent:
-        {{request.time}}
+        Student: {{request.student}} Tutor: {{request.tutor}} Status:
+        {{request.status}} Time sent: {{request.time}}
       </div>
-      <!-- <form action="/tutors/request_action" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="student" id="student" />
-        <button>
-          accept
-        </button>
-      </form> -->
       {% endfor %}
     </body>
   </html>

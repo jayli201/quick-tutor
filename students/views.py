@@ -3,10 +3,11 @@ from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth import logout
 from .models import StudentSignup
-from tutors.models import TutorSignup
+from tutors.models import TutorSignup, Request
 from django.contrib import messages
 from .forms import StudentSignupForm
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def landing(request):
     return render(request, 'students/landing.html') 
@@ -104,3 +105,12 @@ class TutorProfileView(generic.ListView):
 
     def get_queryset(self):
         return StudentSignup.objects.filter(user=self.request.user)
+
+
+def request_view(request):
+    template_name = 'students/requests.html'
+    context_object_name = 'requests_list'
+
+    requests = Request.objects.filter(student=request.user)
+
+    return render(request, 'students/requests.html', {'requests_list': requests}) 

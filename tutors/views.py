@@ -122,7 +122,7 @@ def send_request(request, username):
     student = User.objects.get(username=request.user.username)
 
     request_user = User.objects.get(username=username)
-    tutor = TutorSignup.objects.get(user=request_user)
+    tutor = User.objects.get(username=username)
 
     status = "None"
     time = datetime.datetime.now()
@@ -131,16 +131,21 @@ def send_request(request, username):
 
     return HttpResponseRedirect(reverse('tutors:myprofile'))
 
+def request_view(request):
+    template_name = 'tutors/requests.html'
+    context_object_name = 'requests_list'
 
-# class RequestView(generic.ListView):
-#     # available to tutors, only show the requests assigned to them
-#     template_name = 'tutors/requests.html'
-#     context_object_name = 'requests_list'
+    # tutor = TutorSignup.objects.get(user=request.user)
+    requests = Request.objects.filter(tutor=request.user)
 
-#     def get_queryset(self):
-#         try:
-#             request_user = User.objects.get(username=self.kwargs['username'])
-#             return TutorSignup.objects.filter(user=request_user)
-        
-#         except:
-#             return TutorSignup.objects.filter(user=self.request.user)
+    return render(request, 'tutors/requests.html', {'requests_list': requests}) 
+
+# def request_action(request):
+#     if request.method == 'POST':
+#         user = TutorSignup.objects.get(user=request.user)
+#         student = request.POST['student']
+#         action = request.POST['action']
+#         specific_request = Request.objects.filter(tutor=request.user, student=student)
+#         specific_request.status = action
+#         specific_request.save()
+#         return HttpResponseRedirect('/tutors/')
