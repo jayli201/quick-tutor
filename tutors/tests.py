@@ -23,6 +23,14 @@ class TutorSignUpEquivalenceTestCase(TestCase):
         self.assertEqual(bad.pay, "0")
         self.assertEqual(bad.payment_method, "")
 
+    def test_tutor_edit(self):
+        tutor = TutorSignup.objects.get(phone_number="555-555-1234")
+        tutor.phone_number="5"
+        tutor.classes="CS 2150"
+        tutor.save()
+        self.assertEqual(tutor.phone_number,"5")
+        self.assertEqual(tutor.classes,"CS 2150")
+
 class GPSTestCase(TestCase):
     def setUp(self):
         user = User.objects.create_user('test', 'test@test.com', 'password')

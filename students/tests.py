@@ -21,3 +21,11 @@ class StudentSignUpTestCase(TestCase):
     def test_student_boundary(self):
         blank = StudentSignup.objects.get(phone_number="5")
         self.assertEqual(blank.classes, "")
+
+    def test_student_edit(self):
+        student = StudentSignup.objects.get(phone_number="123-456-7890")
+        student.phone_number="5"
+        student.classes="CS 2150"
+        student.save()
+        self.assertEqual(student.phone_number,"5")
+        self.assertEqual(student.classes,"CS 2150")
