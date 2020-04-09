@@ -12,6 +12,9 @@ def landing(request):
     return render(request, 'students/landing.html') 
     #small change
 
+def rating(request):
+    return render(request, 'students/ratings.html')
+
 # getting the secret access token from .env file
 from dotenv import load_dotenv
 load_dotenv()
