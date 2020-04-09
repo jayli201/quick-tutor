@@ -147,3 +147,10 @@ def request_action(request):
         specific_request.status = action
         specific_request.save()
         return HttpResponseRedirect('/tutors/requests')
+
+def request_close(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.delete()
+        return HttpResponseRedirect('/tutors/requests')

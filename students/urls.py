@@ -16,4 +16,5 @@ urlpatterns = [
     path('students/signin', views.sign_in_as, name='sign_in_as'),
     path('students/requests', views.request_view, name='request_view'),
     path('students/profile/<str:username>', views.ProfileView.as_view(), name='profile'),
+    path('students/request_close/', views.request_close, name='request_close')
 ]

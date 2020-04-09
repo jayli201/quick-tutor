@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth import logout
@@ -119,3 +119,10 @@ def request_view(request):
     requests = Request.objects.filter(student=request.user)
 
     return render(request, 'students/requests.html', {'requests_list': requests}) 
+
+def request_close(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.delete()
+        return HttpResponseRedirect('/students/requests')
