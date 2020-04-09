@@ -10,21 +10,54 @@
         type="text/css"
         href="{% static 'tutors/format.css' %}"
       />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <title>Current Requests</title>
     </head>
     <body>
       {% for request in requests_list %}
       <div>
-        Student: {{request.student}} Status: {{request.status}} Time sent:
-        {{request.time}}
+        Student: {{request.student}}
       </div>
-      <!-- <form action="/tutors/request_action" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="student" id="student" />
-        <button>
-          accept
-        </button>
-      </form> -->
+      <div>
+        Status: {{request.status}}
+      </div>
+      <div>
+        Time: {{request.time}}
+      </div>
+      <div>
+        <form action="{% url 'tutors:request_action' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{request.id}}" />
+          <input type="hidden" name="action" value="accept" />
+          <button type="submit" class="btn btn-primary">
+            Accept
+          </button>
+        </form>
+        <form action="{% url 'tutors:request_action' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{request.id}}" />
+          <input type="hidden" name="action" value="deny" />
+          <button type="submit" class="btn btn-primary">
+            Deny
+          </button>
+        </form>
+      </div>
+
+      <!-- <script>
+        $("#accept").click(function () {
+          document.getElementById("action").value = "accept";
+          console.log($("#action").val())
+          // document.getElementById("request_id").value = $("#id").val();
+        });
+        $("#deny").click(function () {
+          document.getElementById("action").value = "deny";
+          // document.getElementById("request_id").value = $("#id").val();
+        });
+        $("#test").click(function () {
+          console.log($("#request_id").val());
+          console.log("hi");
+        });
+      </script> -->
       {% endfor %}
     </body>
   </html>

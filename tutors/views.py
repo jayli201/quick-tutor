@@ -12,6 +12,7 @@ from students.models import StudentSignup
 from django.contrib.auth.models import User
 import datetime
 from django.urls import reverse
+from uuid import uuid4
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -124,9 +125,8 @@ def send_request(request, username):
     request_user = User.objects.get(username=username)
     tutor = User.objects.get(username=username)
 
-    status = "None"
     time = datetime.datetime.now()
-    r = Request.objects.create(student=student, tutor=tutor, status=status, time=time)
+    r = Request.objects.create(student=student, tutor=tutor, time=time)
     r.save()
 
     return HttpResponseRedirect(reverse('tutors:myprofile'))
@@ -135,17 +135,15 @@ def request_view(request):
     template_name = 'tutors/requests.html'
     context_object_name = 'requests_list'
 
-    # tutor = TutorSignup.objects.get(user=request.user)
     requests = Request.objects.filter(tutor=request.user)
 
     return render(request, 'tutors/requests.html', {'requests_list': requests}) 
 
-# def request_action(request):
-#     if request.method == 'POST':
-#         user = TutorSignup.objects.get(user=request.user)
-#         student = request.POST['student']
-#         action = request.POST['action']
-#         specific_request = Request.objects.filter(tutor=request.user, student=student)
-#         specific_request.status = action
-#         specific_request.save()
-#         return HttpResponseRedirect('/tutors/')
+def request_action(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        action = str(request.POST['action'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.status = action
+        specific_request.save()
+        return HttpResponseRedirect('/tutors/requests')

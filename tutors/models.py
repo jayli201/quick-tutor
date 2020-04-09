@@ -42,12 +42,12 @@ class Request(models.Model):
     STATUS = (
        ('accept', _('Accept')),
        ('deny', _('Deny')),
-       ('none', _('No choice')),
+       ('No choice', _('No choice')),
    )
     status = models.CharField(
        max_length=32,
        choices=STATUS,
-       default='none',
+       default='No choice',
    )
     time = models.DateTimeField('time sent')
      
