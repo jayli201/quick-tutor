@@ -23,3 +23,9 @@ footer {
 #wrapper {
   padding-bottom: 2rem;
 }
+
+table {
+  text-align:left;
+  margin-left:auto;
+  margin-right:auto;
+}
