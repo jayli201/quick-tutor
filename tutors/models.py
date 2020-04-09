@@ -30,6 +30,7 @@ class TutorSignup(models.Model):
     longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     status = models.BooleanField(default=False)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         if self.phone_number==None:
