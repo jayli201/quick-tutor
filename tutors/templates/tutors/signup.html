@@ -26,7 +26,9 @@
 {% block body %}
 <p ALIGN="center"><form action="/tutors/signup" method="POST">
     {% csrf_token %}
-    <p ALIGN="center">{{ form.as_p }}</p>
+    <table>
+      {{ form.as_table }}
+    </table>
     <button style="background-color: #3870ff" type="submit" class="btn btn-success">Submit</button>
 </form>
 {% endblock %}</p>
