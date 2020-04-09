@@ -13,51 +13,43 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <title>Current Requests</title>
     </head>
-    <body>
+    <body ALIGN="center">
       {% for request in requests_list %}
-      <div>
-        Student: {{request.student}}
+      <div class="card w-50" ALIGN="center">
+        <div class="card-header">
+          Request from: {{request.student}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Details:</h5>
+          <p class="card-text">
+            <div>
+              Status: {{request.status}}
+            </div>
+            <div>
+              Time: {{request.time}}
+            </div>
+          </p>
+          <a href="/students/profile/{{request.student}}" target="_blank" title="Opens in a new window"  class="btn btn-primary">{{request.student}}'s profile</a>
+        </div>
+        <div>
+          <form action="{% url 'tutors:request_action' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="request_id" value="{{request.id}}" />
+            <input type="hidden" name="action" value="accept" />
+            <button type="submit" class="btn btn-primary">
+              Accept
+            </button>
+          </form>
+          <form action="{% url 'tutors:request_action' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="request_id" value="{{request.id}}" />
+            <input type="hidden" name="action" value="deny" />
+            <button type="submit" class="btn btn-primary">
+              Deny
+            </button>
+          </form>
       </div>
-      <div>
-        Status: {{request.status}}
-      </div>
-      <div>
-        Time: {{request.time}}
-      </div>
-      <div>
-        <form action="{% url 'tutors:request_action' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="request_id" value="{{request.id}}" />
-          <input type="hidden" name="action" value="accept" />
-          <button type="submit" class="btn btn-primary">
-            Accept
-          </button>
-        </form>
-        <form action="{% url 'tutors:request_action' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="request_id" value="{{request.id}}" />
-          <input type="hidden" name="action" value="deny" />
-          <button type="submit" class="btn btn-primary">
-            Deny
-          </button>
-        </form>
-      </div>
-
-      <!-- <script>
-        $("#accept").click(function () {
-          document.getElementById("action").value = "accept";
-          console.log($("#action").val())
-          // document.getElementById("request_id").value = $("#id").val();
-        });
-        $("#deny").click(function () {
-          document.getElementById("action").value = "deny";
-          // document.getElementById("request_id").value = $("#id").val();
-        });
-        $("#test").click(function () {
-          console.log($("#request_id").val());
-          console.log("hi");
-        });
-      </script> -->
+      <br />
       {% endfor %}
     </body>
   </html>

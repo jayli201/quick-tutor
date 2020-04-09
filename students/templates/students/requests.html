@@ -12,16 +12,26 @@
       />
       <title>Current Requests</title>
     </head>
-    <script>
-      var requests_list = "{{requests_list}}";
-      console.log(requests_list);
-    </script>
     <body>
       {% for request in requests_list %}
-      <div>
-        Student: {{request.student}} Tutor: {{request.tutor}} Status:
-        {{request.status}} Time sent: {{request.time}}
+      <div class="card w-50" ALIGN="center">
+        <div class="card-header">
+          Request for: {{request.tutor}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Details:</h5>
+          <p class="card-text">
+            <div>
+              Status: {{request.status}}
+            </div>
+            <div>
+              Time: {{request.time}}
+            </div>
+          </p>
+          <a href="/tutors/profile/{{request.tutor}}" target="_blank" title="Opens in a new window" class="btn btn-primary">{{request.tutor}}'s profile</a>
+        </div>
       </div>
+      <br />
       {% endfor %}
     </body>
   </html>

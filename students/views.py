@@ -97,7 +97,12 @@ class ProfileView(generic.ListView):
             return context
 
     def get_queryset(self):
-        return StudentSignup.objects.filter(user=self.request.user)
+        try:
+            request_user = User.objects.get(username=self.kwargs['username'])
+            return StudentSignup.objects.filter(user=request_user)
+        
+        except:
+            return StudentSignup.objects.filter(user=self.request.user)
 
 class TutorProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
