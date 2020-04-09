@@ -1,0 +1,56 @@
+{% extends "./layout.html" %} {% block content %}
+
+<!DOCTYPE html>
+<div ALIGN="center">
+  <html lang="en">
+    {% load static %}
+    <head>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'students/format.css' %}"
+      />
+      <title>Current Requests</title>
+    </head>
+    <body>
+      {% if requests_list %}
+        {% for request in requests_list %}
+        <div class="card w-50" ALIGN="center">
+          <div class="card-header">
+            Request for: {{request.tutor}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Details:</h5>
+            <p class="card-text">
+              <div>
+                Status: {{request.status}}
+              </div>
+              <div>
+                Time: {{request.time}}
+              </div>
+            </p>
+            <div>
+              <a href="/tutors/profile/{{request.tutor}}" target="_blank" title="Opens in a new window" class="btn btn-primary">{{request.tutor}}'s profile</a>
+            </div>
+            <br />
+            {% if request.status != "No choice" %}
+            <form action="{% url 'students:request_close' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="request_id" value="{{request.id}}" />
+              <button type="submit" class="btn btn-primary">
+                Close request
+              </button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+        <br />
+        {% endfor %}
+      {% else %} 
+      <p>No current requests. Find a tutor on the homepage and request their help!</p>
+      {% endif %}
+    </body>
+  </html>
+</div>
+
+{% endblock %}

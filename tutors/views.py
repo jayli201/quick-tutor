@@ -12,6 +12,7 @@ from students.models import StudentSignup
 from django.contrib.auth.models import User
 import datetime
 from django.urls import reverse
+from uuid import uuid4
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -122,25 +123,34 @@ def send_request(request, username):
     student = User.objects.get(username=request.user.username)
 
     request_user = User.objects.get(username=username)
-    tutor = TutorSignup.objects.get(user=request_user)
+    tutor = User.objects.get(username=username)
 
-    status = "None"
     time = datetime.datetime.now()
-    r = Request.objects.create(student=student, tutor=tutor, status=status, time=time)
+    r = Request.objects.create(student=student, tutor=tutor, time=time)
     r.save()
 
     return HttpResponseRedirect(reverse('tutors:myprofile'))
 
+def request_view(request):
+    template_name = 'tutors/requests.html'
+    context_object_name = 'requests_list'
 
-# class RequestView(generic.ListView):
-#     # available to tutors, only show the requests assigned to them
-#     template_name = 'tutors/requests.html'
-#     context_object_name = 'requests_list'
+    requests = Request.objects.filter(tutor=request.user)
 
-#     def get_queryset(self):
-#         try:
-#             request_user = User.objects.get(username=self.kwargs['username'])
-#             return TutorSignup.objects.filter(user=request_user)
-        
-#         except:
-#             return TutorSignup.objects.filter(user=self.request.user)
+    return render(request, 'tutors/requests.html', {'requests_list': requests}) 
+
+def request_action(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        action = str(request.POST['action'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.status = action
+        specific_request.save()
+        return HttpResponseRedirect('/tutors/requests')
+
+def request_close(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.delete()
+        return HttpResponseRedirect('/tutors/requests')

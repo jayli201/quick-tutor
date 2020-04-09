@@ -1,5 +1,71 @@
-<!-- 
-    1. show the current requests for this tutor
-    2. allow the tutor to accept/deny requests
-    3. when the status of a request changes, send an alert to the student?
- -->
+{% extends "./layout.html" %} {% block content %}
+
+<!DOCTYPE html>
+<div ALIGN="center">
+  <html lang="en">
+    {% load static %}
+    <head>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'tutors/format.css' %}"
+      />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <title>Current Requests</title>
+    </head>
+    <body ALIGN="center">
+      {% if requests_list %}
+        {% for request in requests_list %}
+        <div class="card w-50" ALIGN="center">
+          <div class="card-header">
+            Request from: {{request.student}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Details:</h5>
+            <p class="card-text">
+              <div>
+                Status: {{request.status}}
+              </div>
+              <div>
+                Time: {{request.time}}
+              </div>
+            </p>
+            <a href="/students/profile/{{request.student}}" target="_blank" title="Opens in a new window"  class="btn btn-primary">{{request.student}}'s profile</a>
+          </div>
+          {% if request.status == "No choice" %}
+            <form action="{% url 'tutors:request_action' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="request_id" value="{{request.id}}" />
+              <input type="hidden" name="action" value="accept" />
+              <button type="submit" class="btn btn-primary">
+                Accept
+              </button>
+            </form>
+            <form action="{% url 'tutors:request_action' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="request_id" value="{{request.id}}" />
+              <input type="hidden" name="action" value="deny" />
+              <button type="submit" class="btn btn-primary">
+                Deny
+              </button>
+            </form>
+            {% else %}
+            <form action="{% url 'tutors:request_close' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="request_id" value="{{request.id}}" />
+              <button type="submit" class="btn btn-primary">
+                Close request
+              </button>
+            </form>
+          {% endif %}
+        </div>
+        <br />
+        {% endfor %}
+      {% else %} 
+      <p>No current requests. Keep your eye out for student requests!</p>
+      {% endif %}
+    </body>
+  </html>
+</div>
+
+{% endblock %}

@@ -1,12 +1,13 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth import logout
 from .models import StudentSignup
-from tutors.models import TutorSignup
+from tutors.models import TutorSignup, Request
 from django.contrib import messages
 from .forms import StudentSignupForm
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def landing(request):
     return render(request, 'students/landing.html') 
@@ -96,7 +97,12 @@ class ProfileView(generic.ListView):
             return context
 
     def get_queryset(self):
-        return StudentSignup.objects.filter(user=self.request.user)
+        try:
+            request_user = User.objects.get(username=self.kwargs['username'])
+            return StudentSignup.objects.filter(user=request_user)
+        
+        except:
+            return StudentSignup.objects.filter(user=self.request.user)
 
 class TutorProfileView(generic.ListView):
     template_name = 'tutors/profile.html'
@@ -104,3 +110,19 @@ class TutorProfileView(generic.ListView):
 
     def get_queryset(self):
         return StudentSignup.objects.filter(user=self.request.user)
+
+
+def request_view(request):
+    template_name = 'students/requests.html'
+    context_object_name = 'requests_list'
+
+    requests = Request.objects.filter(student=request.user)
+
+    return render(request, 'students/requests.html', {'requests_list': requests}) 
+
+def request_close(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.delete()
+        return HttpResponseRedirect('/students/requests')
