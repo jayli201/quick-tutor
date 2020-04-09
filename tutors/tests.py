@@ -38,6 +38,14 @@ class GPSTestCase(TestCase):
         self.assertGreater(tutor.latitude,4.39)
         self.assertGreater(4.41,tutor.latitude)
 
+    def test_change_gps(self):
+        tutor = TutorSignup.objects.get(phone_number="555-555-5555")
+        tutor.longitude = 7
+        tutor.latitude = 2
+        tutor.save()
+        self.assertEqual(tutor.longitude,7)
+        self.assertEqual(tutor.latitude, 2)
+
 class ActiveTestCase(TestCase):
     def setUp(self):
         active = User.objects.create_user('test', 'test@test.com', 'password')
