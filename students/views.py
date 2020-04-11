@@ -82,10 +82,6 @@ def signup_form(request):
         form = StudentSignupForm()
     return render(request, 'students/signup.html', {'form': form}) 
 
-@login_required(login_url='students:landing')    
-def search(request):
-    return render(request, 'students/search.html')
-
 @login_required(login_url='students:landing')
 def choose_signup(request):
     return render(request, 'students/choose.html')
