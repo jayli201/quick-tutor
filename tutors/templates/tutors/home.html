@@ -57,7 +57,7 @@
       if (navigator.geolocation) {
         // getting current position and creating a map centered at current position
         navigator.geolocation.getCurrentPosition(
-          function(position) {
+          function (position) {
             mapboxgl.accessToken = ACCESS_TOKEN;
 
             var long = position.coords.longitude;
@@ -67,12 +67,12 @@
               container: "map",
               style: "mapbox://styles/mapbox/streets-v11",
               center: [long, lat],
-              zoom: 14
+              zoom: 14,
             });
 
             // adding a marker indicating your location
             var marker = new mapboxgl.Marker({
-              draggable: true
+              draggable: true,
             })
               .setLngLat([long, lat])
               .setPopup(
@@ -90,7 +90,7 @@
             }
             marker.on("dragend", onDragEnd);
           },
-          function(error) {
+          function (error) {
             alert("Enable location services.");
           },
           { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
@@ -208,7 +208,7 @@
             </form>
             <!-- script to grab current coordinates from html element -->
             <script>
-              $("#activate").click(function() {
+              $("#activate").click(function () {
                 var long = $("#long").val();
                 var lat = $("#lat").val();
                 document.getElementById("long_form").value = long;

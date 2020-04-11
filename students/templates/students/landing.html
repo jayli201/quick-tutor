@@ -29,9 +29,12 @@
         <div class="col text-center">
           <h1>Join Now!</h1>
           <p>The only true wisdom is knowing you know nothing -Socrates</p>
+          {% if sign_in == "no"%}
           <a class="btn btn-primary btn-lg" href="{% provider_login_url 'google' %}" role="button">Sign into Google Account</a>
+          {% else %}
           <a class="btn btn-primary btn-lg" href="/students/choose" role="button">Sign Up</a>
           <a class="btn btn-primary btn-lg" href="/students/signin" role="button">Sign In</a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -46,9 +49,17 @@
         </p>
       </div>
       <div class="col">
+        {%load static%}
+        <img src="{% static '/images/arrow2.png' %}" width="100" height="100">
+      </div>
+      <div class="col">
         Step 2: <p>
           Choose a tutor and wait 
         </p>
+      </div>
+      <div class="col">
+        {%load static%}
+        <img src="{% static '/images/arrow2.png' %}" width="100" height="100">
       </div>
       <div class="col">
         Step 3: <p>

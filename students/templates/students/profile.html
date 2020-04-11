@@ -20,6 +20,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Student Profile</title>
   </head>
   <br />
@@ -34,11 +36,6 @@
             <h4 class="modal-title">Edit Profile</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
-          <script>
-            $('#edit').on('hidden.bs.modal', function (e) {
-         $('#edit').find('input[type="text"]').val('');
-      });
-          </script>
           <!-- Modal body -->
           <div class="modal-body">
             <form id="edit" role="form" method="POST" action="/students/edit">
@@ -63,6 +60,11 @@
         </div>
       </div>
     </div>
+    <script>
+      $('#edit').on('hide.bs.modal', function () { 
+      location.reload()
+      });
+      </script>
     
     {% if profile_list %}
     <ul class="list-group">

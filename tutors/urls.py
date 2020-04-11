@@ -12,5 +12,8 @@ urlpatterns = [
     path('signup', views.signup_form, name='signup'),
     path('activate', views.activate, name='activate'),
     path('deactivate', views.deactivate, name='deactivate'),
-    path('send_request/<str:username>', views.send_request, name='request')
+    path('send_request/<str:username>', views.send_request, name='request'),
+    path('requests', views.request_view, name='request_view'),
+    path('request_action/', views.request_action, name='request_action'),
+    path('request_close/', views.request_close, name='request_close')
 ]

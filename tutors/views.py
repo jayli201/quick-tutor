@@ -4,7 +4,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import TutorSignup, Request
 from django.contrib import messages
 from .forms import TutorSignupForm
+from django.contrib.auth.decorators import login_required
 from students import urls
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
 from django.contrib.auth import logout
@@ -12,6 +14,7 @@ from students.models import StudentSignup
 from django.contrib.auth.models import User
 import datetime
 from django.urls import reverse
+from uuid import uuid4
 
 # getting the secret access token from .env file
 from dotenv import load_dotenv
@@ -19,6 +22,7 @@ load_dotenv()
 import os
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
+@login_required(login_url='students:landing')
 def home(request):
     user = TutorSignup.objects.get(user=request.user)
     status = user.status
@@ -28,7 +32,9 @@ def logoutview(request):
     logout(request)
     return redirect('students:landing')
 
-class ProfileView(generic.ListView):
+class ProfileView(LoginRequiredMixin, generic.ListView):
+    login_url = 'students:landing'
+    redirect_field_name = 'redirect_to'
     template_name = 'tutors/profile.html'
     context_object_name = 'profile_list'
 
@@ -50,7 +56,7 @@ class ProfileView(generic.ListView):
         except:
             return TutorSignup.objects.filter(user=self.request.user)
     
-
+@login_required(login_url='students:landing')
 def activate(request):
     if request.method == 'POST':
         longitude = request.POST.get('long_form')
@@ -62,6 +68,7 @@ def activate(request):
         user.save()
         return HttpResponseRedirect('/tutors/')
 
+@login_required(login_url='students:landing')
 def deactivate(request):
     if request.method == 'POST':
         user = TutorSignup.objects.get(user=request.user)
@@ -71,6 +78,7 @@ def deactivate(request):
         user.save()
         return HttpResponseRedirect('/tutors/')
 
+@login_required(login_url='students:landing')
 def edit_form(request):
     if request.method == 'POST':
         phone = request.POST['phone_number']
@@ -90,6 +98,7 @@ def edit_form(request):
         form = TutorSignupForm()
     return render(request, 'tutors/edit.html', {'form': form})
 
+@login_required(login_url='students:landing')
 def signup_form(request):
     if request.method == 'POST':
         form = TutorSignupForm(request.POST)
@@ -115,6 +124,7 @@ def signup_form(request):
         form = TutorSignupForm()
     return render(request, 'tutors/signup.html', {'form': form}) 
 
+@login_required(login_url='students:landing')
 def send_request(request, username):
     # this should be activated when the student clicks the "request" button
     # creates a new instance of a Request
@@ -122,25 +132,37 @@ def send_request(request, username):
     student = User.objects.get(username=request.user.username)
 
     request_user = User.objects.get(username=username)
-    tutor = TutorSignup.objects.get(user=request_user)
+    tutor = User.objects.get(username=username)
 
-    status = "None"
     time = datetime.datetime.now()
-    r = Request.objects.create(student=student, tutor=tutor, status=status, time=time)
+    r = Request.objects.create(student=student, tutor=tutor, time=time)
     r.save()
 
     return HttpResponseRedirect(reverse('tutors:myprofile'))
 
+@login_required(login_url='students:landing')
+def request_view(request):
+    template_name = 'tutors/requests.html'
+    context_object_name = 'requests_list'
 
-# class RequestView(generic.ListView):
-#     # available to tutors, only show the requests assigned to them
-#     template_name = 'tutors/requests.html'
-#     context_object_name = 'requests_list'
+    requests = Request.objects.filter(tutor=request.user)
 
-#     def get_queryset(self):
-#         try:
-#             request_user = User.objects.get(username=self.kwargs['username'])
-#             return TutorSignup.objects.filter(user=request_user)
-        
-#         except:
-#             return TutorSignup.objects.filter(user=self.request.user)
+    return render(request, 'tutors/requests.html', {'requests_list': requests}) 
+
+@login_required(login_url='students:landing')
+def request_action(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        action = str(request.POST['action'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.status = action
+        specific_request.save()
+        return HttpResponseRedirect('/tutors/requests')
+
+@login_required(login_url='students:landing')
+def request_close(request):
+    if request.method == 'POST':
+        request_id = int(request.POST['request_id'])
+        specific_request = Request.objects.get(pk=request_id)
+        specific_request.delete()
+        return HttpResponseRedirect('/tutors/requests')

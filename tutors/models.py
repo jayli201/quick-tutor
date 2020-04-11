@@ -38,17 +38,17 @@ class TutorSignup(models.Model):
         return self.phone_number
 
 class Request(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    tutor = models.ForeignKey(TutorSignup, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name='students', on_delete=models.CASCADE)
+    tutor = models.ForeignKey(User, related_name='tutors', on_delete=models.CASCADE)
     STATUS = (
        ('accept', _('Accept')),
        ('deny', _('Deny')),
-       ('none', _('No choice')),
+       ('No choice', _('No choice')),
    )
     status = models.CharField(
        max_length=32,
        choices=STATUS,
-       default='none',
+       default='No choice',
    )
     time = models.DateTimeField('time sent')
      
