@@ -15,9 +15,11 @@
       href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Tutor Profile</title>
   </head>
   <br />
@@ -46,10 +48,10 @@
               <!--Add the scroll down bar here-->
               <div class="form-group">
                 <label for="subjects">Subjects</label>
-                <select name="subjects" value="{{p.subjects}}">
-                  <option value = "science">science</option>
-                  <option value = "math">math</option>
-                  <option value = "english">english</option>
+                <select name="subjects">
+                  <option value = "math" {%if p.subjects == "math" %}selected{%endif%}>math</option>
+                  <option value = "english" {%if p.subjects == "english" %}selected{%endif%}>english</option>
+                  <option value = "science" {%if p.subjects == "science" %}selected{%endif%}>science</option>
                 </select>
               </div>
               <div class="form-group">
@@ -60,10 +62,10 @@
               </div>
               <div class="form-group">
                 <label for="payment_method">Payment Method</label>
-                <select name="payment_method" value={{p.payment_method}}>
-                  <option value = "venmo">venmo</option>
-                  <option value = "cash">cash</option>
-                  <option value = "paypal">paypal</option>
+                <select name="payment_method">
+                  <option value = "venmo" {%if p.payment_method == "venmo" %}selected{%endif%}>venmo</option>
+                  <option value = "cash" {%if p.payment_method == "cash" %}selected{%endif%}>cash</option>
+                  <option value = "paypal" {%if p.payment_method == "paypal" %}selected{%endif%}>paypal</option>
                 </select>
               </div>
               {% endfor %}
@@ -73,6 +75,11 @@
         </div>
       </div>
     </div>
+    <script>
+      $('#edit').on('hide.bs.modal', function () { 
+      location.reload()
+      });
+      </script>
         <!--Modal Stuff pt 2-->
         <div class="modal" id="request">
           <div class="modal-dialog">
@@ -80,6 +87,7 @@
             </div>
           </div>
         </div>
+        
     {% if profile_list %}
     <ul class="list-group">
       {% for p in profile_list %}
