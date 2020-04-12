@@ -2,6 +2,7 @@ from django.test import TestCase
 from students.models import StudentSignup
 from django.contrib.auth.models import User
 
+#test
 
 class BasicTestCase(TestCase):
     def test_1eq1(self):
