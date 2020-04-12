@@ -23,17 +23,12 @@
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Profile</h4>
+          <h4 class="modal-title">Rate This Tutor</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <script>
-          $('#rate').on('hidden.bs.modal', function (e) {
-       $('#rate').find('input[type="text"]').val('');
-    });
-        </script>
         <!-- Modal body -->
         <div class="modal-body">
-          <form id="rate" role="form" method="POST" action="/tutors/edit">
+          <form id="rate" role="form" method="POST" action="{% url 'students:request_close' %}">
             {% csrf_token %}
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active">
