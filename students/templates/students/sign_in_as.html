@@ -27,8 +27,15 @@
     <div class="container">
       <div class="row">
         <div class="col text-center">
+          {% if student == "yes" %}
           <a class="btn btn-primary btn-lg" href="/students" role="button">Student</a>
+          {%endif%}
+          {% if tutor == "yes" %}
           <a class="btn btn-primary btn-lg" href="/tutors/" role="button">Tutor</a>
+          {%endif%}
+          {% if tutor == "no" and student == "no" %}
+          <a class="btn btn-primary btn-lg" href="choose" role="button">You Haven't Made an Account, Sign Up Here!</a>
+          {%endif%}
         </div>
       </div>
     </div>

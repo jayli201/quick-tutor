@@ -19,6 +19,10 @@ def landing(request):
     return render(request, 'students/landing.html', {"sign_in":signed_in}) 
     #small change
 
+@login_required(login_url='students:landing')
+def rating(request):
+    return render(request, 'students/ratings')
+
 # getting the secret access token from .env file
 from dotenv import load_dotenv
 load_dotenv()
@@ -88,7 +92,17 @@ def choose_signup(request):
 
 @login_required(login_url='students:landing')
 def sign_in_as(request):
-    return render(request, 'students/sign_in_as.html')
+    try:
+        user = StudentSignup.objects.get(user=request.user)
+        student = 'yes'
+    except:
+        student = 'no'
+    try:
+        user = TutorSignup.objects.get(user=request.user)
+        tutor = 'yes'
+    except:
+        tutor = 'no'
+    return render(request, 'students/sign_in_as.html', {'student':student,'tutor':tutor})
 
 class ProfileView(LoginRequiredMixin, generic.ListView):
     login_url = 'students:landing'
@@ -134,7 +148,16 @@ def request_view(request):
 @login_required(login_url='students:landing')
 def request_close(request):
     if request.method == 'POST':
-        request_id = int(request.POST['request_id'])
+        request_id = int(request.POST['requ'])
+        rate = int(request.POST['options'])
         specific_request = Request.objects.get(pk=request_id)
+        tutor_ratee = TutorSignup.objects.get(user=specific_request.tutor)
+        if tutor_ratee.rating != None:
+            tutor_ratee.rating = (((float(tutor_ratee.rating) * tutor_ratee.num_rates)) + rate) /  (tutor_ratee.num_rates + 1)
+            tutor_ratee.num_rates +=1
+        else:
+            tutor_ratee.rating = rate
+            tutor_ratee.num_rates += 1
+        tutor_ratee.save()
         specific_request.delete()
         return HttpResponseRedirect('/students/requests')
