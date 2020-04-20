@@ -26,7 +26,9 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 def home(request):
     user = TutorSignup.objects.get(user=request.user)
     status = user.status
-    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
+    latitude = user.latitude
+    longitude = user.longitude
+    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status, 'latitude': latitude, 'longitude': longitude}) 
 
 def logoutview(request):
     logout(request)

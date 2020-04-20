@@ -13,6 +13,22 @@
     />
     <title>Student Signup Form</title>
 </head>
+<div id="top">
+  <div class="container">
+    <div class="row">
+      <a href="/">
+        <div class="col">
+          <img
+            src="/../static/images/logo.jpg"
+            width="50"
+            height="50"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
 {% for message in messages %}
 {% if message.tags == "error" %}
 <div class="alert alert-danger">
@@ -21,12 +37,9 @@
 </div>
 {% endif %}
 {% endfor %}
-<div id="page">
-  <div id="wrapper" style="padding-top:10%">
-    <body id="body">
-<h1>Student Signup Form</h1>
-{% block body %}
 {% load crispy_forms_tags %}
+<div id="body">
+<h1 style="padding-bottom: 2rem;">Student Signup Form</h1>
 <p ALIGN="center"><form action="/students/signup" method="POST">
     {% csrf_token %}
     <div class = "form69">
@@ -34,8 +47,12 @@
     </div>
     <button style="background-color: #3870ff;" type="submit" class="btn btn-success">Submit</button>
 </form>
-{% endblock %}</p>
-</body>
 </div>
-  </div>
+
+  <div id="lfooter">
+  <div>Quick Tutor | @ 2000</div>
+  <a>Contact: 1-800-234-1234</a>
+</div>
+</p>
+</body>
 </html>
