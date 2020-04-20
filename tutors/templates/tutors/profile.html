@@ -24,6 +24,7 @@
   </head>
   <br />
   <body>
+    <div id="profile">
     <!--Modal Stuff-->
     <div class="modal" id="edit">
       <div class="modal-dialog">
@@ -93,7 +94,11 @@
       {% for p in profile_list %}
       <div class="panel panel-info">      
         <div class="panel-heading">
-          <h3 class="panel-title" style="text-align:center">{{p.user}}</h3>
+          <h3 class="panel-title">
+            <h4 style="text-align: center;">
+              {{p.user}}
+            </h4>
+          </h3>
         </div>          
         <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" class="img-circle img-responsive"> </div>
         <div class=" col-md-9 col-lg-9 ">         
@@ -148,7 +153,7 @@
                   {%else%}
                   <a type="button" class="btn btn-primary" href="{% url 'students:signup_form' %}">Make Student Profile</a>
                   {%endif%}
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit" id="but">
                   Edit Profile
                   </button>
                 </td>
@@ -161,8 +166,9 @@
       {% endfor %}
     </ul>
     {% else %}
-    <p>nothing in database</p>
+    <p>Your profile isn't in the database.</p>
     {% endif %}
+    </div>
   </body>
 </html>
 

@@ -1,31 +1,86 @@
 #body {
   padding-left: 15%;
   padding-right: 15%;
-  background-color: #70a0d0;
 }
 
 footer {
   position: absolute;
   bottom: 0;
-  height: 2rem;
+  height: 4rem;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
-  width:100%;
+  width: 100%;
+}
+
+#lfooter {
+  position: absolute;
+  bottom: 0;
+  height: 7%;
+  background-color: #c3c3c3;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+#top {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 #page {
   position: relative;
-  min-height: 100vh;
-  background-color: #eeeeee;
+  min-height: calc(100vh - 2rem);
+  background-color: #ffffff;
 }
 
 #wrapper {
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
 }
 
 table {
-  text-align:left;
-  margin-left:auto;
-  margin-right:auto;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex-grid {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.col1 {
+  flex: 1;
+}
+
+.col3 {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#activate {
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+#button {
+  width: 20%;
+}
+
+#map {
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+#progress {
+  width: 85%;
+  margin: 0 auto;
+}
+
+#profile {
+  width: 85%;
+  margin: 0 auto;
 }
