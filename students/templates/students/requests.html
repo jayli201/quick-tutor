@@ -1,31 +1,35 @@
 {% extends "./layout.html" %} {% block content %}
 
-<link 
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
-    <link  
-      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+/>
+<link
+  href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <style>
-.modal-title {
+  .modal-title {
     text-align: center;
     width: 100%;
-}
-form {
-  text-align: center;
-}
-  </style>
+  }
+  form {
+    text-align: center;
+  }
+</style>
 
 <!DOCTYPE html>
-<div ALIGN="center">
+<div align="center">
   <html lang="en">
     {% load static %}
     <head>
@@ -37,43 +41,55 @@ form {
       <title>Current Requests</title>
     </head>
     <body>
-      {% if requests_list %}
-        {% for request in requests_list %}
-        <div class="card w-50" ALIGN="center">
-          <div class="card-header">
+      {% if requests_list %} {% for request in requests_list %}
+      <div class="card w-50" align="center">
+        <div class="card-header">
+          <h4>
             Request for: {{request.tutor}}
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Details:</h5>
-            <p class="card-text">
-              <div>
-                Status: {{request.status}}
-              </div>
-              <div>
-                Time: {{request.time}}
-              </div>
-            </p>
-            <div>
-              <a href="/tutors/profile/{{request.tutor}}" target="_blank" title="Opens in a new window" class="btn btn-primary">{{request.tutor}}'s profile</a>
-            </div>
-            <br />
-            {% if request.status != "No choice" %}
-              {% csrf_token %} 
-              <button type="button" onclick="save('{{request.id}}')" class="btn btn-primary" data-toggle="modal" data-target="#rate">
-                Close Request
-                </button>
-            {% endif %}
-          </div>
+          </h4>
         </div>
-        <br />
-        {% endfor %}
-      {% else %} 
-      <p>No current requests. Find a tutor on the homepage and request their help!</p>
+        <div class="card-body">
+          <h4 class="card-title">Details:</h4>
+          <h5 class="card-text">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Status: {{request.status}}
+              </li>
+              <li class="list-group-item">
+                Time: {{request.time}}
+              </li>
+            </ul>
+          </h5>
+          <a
+            href="/tutors/profile/{{request.tutor}}"
+            target="_blank"
+            title="Opens in a new window"
+            class="btn btn-primary"
+            >{{request.tutor}}'s profile</a
+          >
+          {% if request.status != "No choice" %} {% csrf_token %}
+          <button
+            type="button"
+            onclick="save('{{request.id}}')"
+            class="btn btn-danger"
+            data-toggle="modal"
+            data-target="#rate"
+          >
+            Close Request
+          </button>
+          {% endif %}
+        </div>
+      </div>
+      <br />
+      {% endfor %} {% else %}
+      <p>
+        No current requests. Find a tutor on the homepage and request their
+        help!
+      </p>
       {% endif %}
     </body>
   </html>
 </div>
-
 
 <!-- Modal Stuff -->
 
@@ -83,36 +99,80 @@ form {
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Rate This Tutor</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-        <form class id="rate" role="form" method="POST" action="{% url 'students:request_close' %}">
+        <form
+          class
+          id="rate"
+          role="form"
+          method="POST"
+          action="{% url 'students:request_close' %}"
+        >
           {% csrf_token %}
           <div class="form-group">
             <div>
-          <input type="hidden" id="requ" name="requ">
+              <input type="hidden" id="requ" name="requ" />
+            </div>
           </div>
-        </div>
           <div class="form-group">
             <div class="justify-content-center">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="1" autocomplete="off" value="1"> 1
-              </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="2" autocomplete="off" value="2"> 2
-              </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="3" autocomplete="off" value="3"> 3
-              </label>
-              <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="4" autocomplete="off" value="4"> 4
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="1"
+                    autocomplete="off"
+                    value="1"
+                  />
+                  1
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="5" autocomplete="off" value="5" checked="checked"> 5
+                  <input
+                    type="radio"
+                    name="options"
+                    id="2"
+                    autocomplete="off"
+                    value="2"
+                  />
+                  2
                 </label>
-            </div>
+                <label class="btn btn-secondary">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="3"
+                    autocomplete="off"
+                    value="3"
+                  />
+                  3
+                </label>
+                <label class="btn btn-secondary">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="4"
+                    autocomplete="off"
+                    value="4"
+                  />
+                  4
+                </label>
+                <label class="btn btn-secondary">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="5"
+                    autocomplete="off"
+                    value="5"
+                    checked="checked"
+                  />
+                  5
+                </label>
+              </div>
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Submit Rating</button>
@@ -123,9 +183,9 @@ form {
 </div>
 
 <script>
-  function save(a){
-  var req = document.getElementById('requ');
-  requ.value=a
+  function save(a) {
+    var req = document.getElementById("requ");
+    requ.value = a;
   }
 </script>
 

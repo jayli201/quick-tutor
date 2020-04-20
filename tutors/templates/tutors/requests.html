@@ -1,7 +1,7 @@
 {% extends "./layout.html" %} {% block content %}
 
 <!DOCTYPE html>
-<div ALIGN="center">
+<div align="center">
   <html lang="en">
     {% load static %}
     <head>
@@ -14,54 +14,62 @@
       <title>Current Requests</title>
     </head>
     <body ALIGN="center">
-      {% if requests_list %}
-        {% for request in requests_list %}
-        <div class="card w-50" ALIGN="center">
-          <div class="card-header">
+      {% if requests_list %} {% for request in requests_list %}
+      <div class="card w-50" align="center">
+        <div class="card-header">
+          <h4>
             Request from: {{request.student}}
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Details:</h5>
-            <p class="card-text">
-              <div>
-                Status: {{request.status}}
-              </div>
-              <div>
-                Time: {{request.time}}
-              </div>
-            </p>
-            <a href="/students/profile/{{request.student}}" target="_blank" title="Opens in a new window"  class="btn btn-primary">{{request.student}}'s profile</a>
-          </div>
-          {% if request.status == "No choice" %}
-            <form action="{% url 'tutors:request_action' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="request_id" value="{{request.id}}" />
-              <input type="hidden" name="action" value="accept" />
-              <button type="submit" class="btn btn-primary">
-                Accept
-              </button>
-            </form>
-            <form action="{% url 'tutors:request_action' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="request_id" value="{{request.id}}" />
-              <input type="hidden" name="action" value="deny" />
-              <button type="submit" class="btn btn-primary">
-                Deny
-              </button>
-            </form>
-            {% else %}
-            <form action="{% url 'tutors:request_close' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="request_id" value="{{request.id}}" />
-              <button type="submit" class="btn btn-primary">
-                Close request
-              </button>
-            </form>
-          {% endif %}
+          </h4>
         </div>
-        <br />
-        {% endfor %}
-      {% else %} 
+        <div class="card-body">
+          <h4 class="card-title">Details:</h4>
+          <h5 class="card-text">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Status: {{request.status}}
+              </li>
+              <li class="list-group-item">
+                Time: {{request.time}}
+              </li>
+            </ul>
+          </h5>
+          <a
+            href="/students/profile/{{request.student}}"
+            target="_blank"
+            title="Opens in a new window"
+            class="btn btn-primary"
+            >{{request.student}}'s profile</a
+          >
+        </div>
+        {% if request.status == "No choice" %}
+        <form action="{% url 'tutors:request_action' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{request.id}}" />
+          <input type="hidden" name="action" value="accept" />
+          <button type="submit" class="btn btn-success">
+            Accept
+          </button>
+        </form>
+        <form action="{% url 'tutors:request_action' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{request.id}}" />
+          <input type="hidden" name="action" value="deny" />
+          <button type="submit" class="btn btn-danger">
+            Deny
+          </button>
+        </form>
+        {% else %}
+        <form action="{% url 'tutors:request_close' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{request.id}}" />
+          <button type="submit" class="btn btn-danger">
+            Close request
+          </button>
+        </form>
+        {% endif %}
+      </div>
+      <br />
+      {% endfor %} {% else %}
       <p>No current requests. Keep your eye out for student requests!</p>
       {% endif %}
     </body>
