@@ -60,24 +60,29 @@
               </li>
             </ul>
           </h5>
-          <a
-            href="/tutors/profile/{{request.tutor}}"
-            target="_blank"
-            title="Opens in a new window"
-            class="btn btn-primary"
-            >{{request.tutor}}'s profile</a
-          >
-          {% if request.status != "No choice" %} {% csrf_token %}
-          <button
-            type="button"
-            onclick="save('{{request.id}}')"
-            class="btn btn-danger"
-            data-toggle="modal"
-            data-target="#rate"
-          >
-            Close Request
-          </button>
-          {% endif %}
+          <div>
+            <a
+              href="/tutors/profile/{{request.tutor}}"
+              target="_blank"
+              title="Opens in a new window"
+              class="btn btn-primary"
+              >{{request.tutor}}'s profile</a
+            >
+          </div>
+          <br />
+          <div>
+            {% if request.status != "No choice" %} {% csrf_token %}
+            <button
+              type="button"
+              onclick="save('{{request.id}}')"
+              class="btn btn-danger"
+              data-toggle="modal"
+              data-target="#rate"
+            >
+              Close Request
+            </button>
+            {% endif %}
+          </div>
         </div>
       </div>
       <br />
@@ -175,7 +180,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit Rating</button>
+          <button type="submit" class="btn btn-success">Submit Rating</button>
         </form>
       </div>
     </div>
