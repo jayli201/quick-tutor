@@ -53,12 +53,14 @@
               >Sign Up</a
             >
             {% endif %}
+            {% if student == "yes" or tutor == "yes" %}
             <a
               class="btn btn-primary btn-lg"
               href="/students/signin"
               role="button"
               >Sign In</a
             >
+            {% endif %}
             {% endif %}
           </div>
         </div>
