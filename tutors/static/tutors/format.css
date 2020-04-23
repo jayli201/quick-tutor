@@ -6,7 +6,17 @@
 footer {
   position: absolute;
   bottom: 0;
-  height: 4rem;
+  height: 5rem;
+  background-color: #c3c3c3;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+#lfooter {
+  position: absolute;
+  bottom: 0;
+  height: 3rem;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
@@ -16,16 +26,6 @@ footer {
 .form69 {
   margin-left: 100px;
   margin-right: 100px;
-}
-
-#lfooter {
-  position: absolute;
-  bottom: 0;
-  height: 7%;
-  background-color: #c3c3c3;
-  color: white;
-  text-align: center;
-  width: 100%;
 }
 
 #top {

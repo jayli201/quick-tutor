@@ -6,25 +6,36 @@
 footer {
   position: absolute;
   bottom: 0;
-  height: 4rem;
+  height: 5rem;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
   width: 100%;
 }
 
-#top {
-  margin-bottom: 2rem;
+#lfooter {
+  position: absolute;
+  bottom: 0;
+  height: 3rem;
+  background-color: #c3c3c3;
+  color: white;
+  text-align: center;
+  margin-left: 15%;
+  width: 70%;
 }
 
-#lfooter {
+#lsfooter {
   position: absolute;
   bottom: 0;
   height: 7%;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
-  width: 100%;
+  width: 70%;
+}
+
+#top {
+  margin-bottom: 2rem;
 }
 
 #page {
