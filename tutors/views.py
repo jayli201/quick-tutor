@@ -120,8 +120,7 @@ def signup_form(request):
                 payment_method = request.POST['payment_method']
                 user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
                 user_object.save()
-        return render(request, 'tutors/home.html')
-
+        return HttpResponseRedirect('/tutors')
     else:
         form = TutorSignupForm()
     return render(request, 'tutors/signup.html', {'form': form}) 

@@ -6,15 +6,11 @@
 footer {
   position: absolute;
   bottom: 0;
-  height: 4rem;
+  height: 6%;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
   width: 100%;
-}
-
-#top {
-  margin-bottom: 2rem;
 }
 
 #lfooter {
@@ -24,7 +20,22 @@ footer {
   background-color: #c3c3c3;
   color: white;
   text-align: center;
-  width: 100%;
+  margin-left: 15%;
+  width: 70%;
+}
+
+#lsfooter {
+  position: absolute;
+  bottom: 0;
+  height: 7%;
+  background-color: #c3c3c3;
+  color: white;
+  text-align: center;
+  width: 70%;
+}
+
+#top {
+  margin-bottom: 2rem;
 }
 
 #page {

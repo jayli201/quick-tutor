@@ -16,7 +16,17 @@ def landing(request):
         signed_in = 'yes'
     else:
         signed_in = "no"
-    return render(request, 'students/landing.html', {"sign_in":signed_in}) 
+    try:
+        user = StudentSignup.objects.get(user=request.user)
+        student = 'yes'
+    except:
+        student = 'no'
+    try:
+        user = TutorSignup.objects.get(user=request.user)
+        tutor = 'yes'
+    except:
+        tutor = 'no'
+    return render(request, 'students/landing.html', {"sign_in":signed_in, 'student':student,'tutor':tutor}) 
     #small change
 
 @login_required(login_url='students:landing')
@@ -80,15 +90,24 @@ def signup_form(request):
                 classes = request.POST['classes']
                 user_object = StudentSignup.objects.create(user=request.user, phone_number = phone, classes = classes)
                 user_object.save()
-        return render(request, 'students/profile.html')
-
+            return HttpResponseRedirect('/students')
     else:
         form = StudentSignupForm()
     return render(request, 'students/signup.html', {'form': form}) 
 
 @login_required(login_url='students:landing')
 def choose_signup(request):
-    return render(request, 'students/choose.html')
+    try:
+        user = StudentSignup.objects.get(user=request.user)
+        student = 'yes'
+    except:
+        student = 'no'
+    try:
+        user = TutorSignup.objects.get(user=request.user)
+        tutor = 'yes'
+    except:
+        tutor = 'no'
+    return render(request, 'students/choose.html', {'student':student,'tutor':tutor})
 
 @login_required(login_url='students:landing')
 def sign_in_as(request):

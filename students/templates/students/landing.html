@@ -45,12 +45,14 @@
               >Sign into Google Account</a
             >
             {% else %}
+            {% if student == "no" and tutor == "no" %}
             <a
               class="btn btn-primary btn-lg"
               href="/students/choose"
               role="button"
               >Sign Up</a
             >
+            {% endif %}
             <a
               class="btn btn-primary btn-lg"
               href="/students/signin"
@@ -104,7 +106,7 @@
     </div>
   </div>
   <div id="lfooter">
-    <div>Quick Tutor | @ 2000</div>
+    <div>Quick Tutor | @ 2020</div>
     <a>Contact: 1-800-234-1234</a>
   </div>
 </html>
