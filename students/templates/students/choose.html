@@ -40,22 +40,25 @@
       <div class="container">
         <div class="row">
           <div class="col text-center">
+            {% if student == "no" %}
             <a class="btn btn-primary btn-lg" href="signup" role="button"
               >Student</a
             >
+            {%endif%} {% if tutor == "no" %}
             <a
               class="btn btn-primary btn-lg"
               href="/tutors/signup"
               role="button"
               >Tutor</a
             >
+            {%endif%}
           </div>
         </div>
       </div>
     </div>
   </div>
   <div id="lfooter">
-    <div>Quick Tutor | @ 2000</div>
+    <div>Quick Tutor | @ 2020</div>
     <a>Contact: 1-800-234-1234</a>
   </div>
 </html>
