@@ -6,7 +6,7 @@
 footer {
   position: absolute;
   bottom: 0;
-  height: 6%;
+  height: 5rem;
   background-color: #c3c3c3;
   color: white;
   text-align: center;
@@ -16,7 +16,7 @@ footer {
 #lfooter {
   position: absolute;
   bottom: 0;
-  height: 7%;
+  height: 3rem;
   background-color: #c3c3c3;
   color: white;
   text-align: center;

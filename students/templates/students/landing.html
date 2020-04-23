@@ -45,7 +45,7 @@
               >Sign into Google Account</a
             >
             {% else %}
-            {% if student == "no" and tutor == "no" %}
+            {% if student == "no" or tutor == "no" %}
             <a
               class="btn btn-primary btn-lg"
               href="/students/choose"

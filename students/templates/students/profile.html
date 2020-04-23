@@ -94,10 +94,18 @@
               </h4>
             </h3>
           </div>
-          <div class="col-md-3 col-lg-3" align="center">
-            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="150" width="150">
+          <div
+            class="col-md-3 col-lg-3"
+            align="center"
+            style="margin-top: 2rem; margin-bottom: 2rem;"
+          >
+            <img
+              src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+              height="150"
+              width="150"
+            />
           </div>
-          <div class="col-md-9 col-lg-9">
+          <div class="col-md-9 col-lg-9" style="margin-top: 2rem;">
             <table class="table table-user-information">
               <tbody>
                 <tr>
@@ -114,6 +122,7 @@
                     <!--Modal button-->
                     {% if hasother == 'yes' %}
                     <a
+                      style="margin-top: 1rem;"
                       type="button"
                       class="btn btn-primary"
                       href="{% url 'tutors:myprofile' %}"
@@ -121,6 +130,7 @@
                     >
                     {%else%}
                     <a
+                      style="margin-top: 1rem;"
                       type="button"
                       class="btn btn-primary"
                       href="{% url 'tutors:signup' %}"
@@ -128,6 +138,7 @@
                     >
                     {%endif%}
                     <button
+                      style="margin-top: 1rem;"
                       type="button"
                       class="btn btn-success"
                       data-toggle="modal"
