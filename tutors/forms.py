@@ -6,8 +6,8 @@ from .models import TutorSignup
 class TutorSignupForm(forms.ModelForm):
     class Meta:
         model = TutorSignup
-        fields = ('phone_number', 'classes', 'subjects', 'pay', 'payment_method')
-        required = ('phone_number', 'classes', 'subjects', 'pay', 'payment_method')
+        fields = ('name', 'phone_number', 'classes', 'subjects', 'pay', 'payment_method')
+        required = ('name', 'phone_number', 'classes', 'subjects', 'pay', 'payment_method')
         labels = {
         "phone_number": "Phone Number",
         "classes": "Classes (ex. CS 3240, CS 2150)",
