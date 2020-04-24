@@ -20,6 +20,12 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    function hidnav(){
+      $("nav.navbar-navbar-light").hide();
+    }
+    </script>
+    
     <title>Tutor Profile</title>
   </head>
   <br />
@@ -34,6 +40,17 @@
             <form id="edit" role="form" method="POST" action="/tutors/edit">
               {% csrf_token %}
               {% for p in profile_list %}
+              <div class="form-group">
+                <label class="name">Name</label>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control input-lg"
+                    name="name"
+                    value="{{p.name}}"
+                  />
+                </div>
+              </div>
               <div class="form-group">
                 <label class="phone_number">Phone Number</label>
                 <div>
@@ -96,7 +113,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             <h4 style="text-align: center;">
-              {{p.user}}
+              {{p.name}}
             </h4>
           </h3>
         </div>          
@@ -135,6 +152,7 @@
               </tr>
               <tr>
                 {% if user.username != p.user.username %}
+                <script>hidnav();</script>
                 <td align="right">
                   <!--Modal button-->
                   <!-- <form method="post"> -->
@@ -171,5 +189,6 @@
     </div>
   </body>
 </html>
+
 
 {% endblock %}

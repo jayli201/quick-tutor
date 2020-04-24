@@ -55,9 +55,11 @@ def logoutview(request):
 @login_required(login_url='students:landing')
 def edit_form(request):
     if request.method == 'POST':
+        name = request.POST['name']
         phone = request.POST['phone_number']
         classes = request.POST['classes']
         user = StudentSignup.objects.get(user=request.user)
+        user.name = name
         user.phone_number = phone
         user.classes = classes
         user.save()
@@ -76,9 +78,10 @@ def signup_form(request):
             return redirect('/students/signup')
         except StudentSignup.DoesNotExist:
             if form.is_valid():
+                name = request.POST['name']
                 phone = request.POST['phone_number']
                 classes = request.POST['classes']
-                user_object = StudentSignup.objects.create(user=request.user, phone_number = phone, classes = classes)
+                user_object = StudentSignup.objects.create(user=request.user, name = name, phone_number = phone, classes = classes)
                 user_object.save()
         return render(request, 'students/profile.html')
 

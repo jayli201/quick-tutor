@@ -6,8 +6,8 @@ from .models import StudentSignup
 class StudentSignupForm(forms.ModelForm):
     class Meta:
         model = StudentSignup
-        fields = ('phone_number', 'classes')
-        required = ('phone_number', 'classes')
+        fields = ('name', 'phone_number', 'classes')
+        required = ('name', 'phone_number', 'classes')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
