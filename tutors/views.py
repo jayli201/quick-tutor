@@ -142,7 +142,7 @@ def send_request(request, username):
     r = Request.objects.create(student=student, tutor=tutor, time=time)
     r.save()
 
-    return HttpResponseRedirect(reverse('tutors:myprofile'))
+    return HttpResponseRedirect('/students/requests')
 
 @login_required(login_url='students:landing')
 def request_view(request):

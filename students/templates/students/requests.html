@@ -43,11 +43,25 @@
     <body>
       {% if requests_list %} {% for request in requests_list %}
       <div class="card w-50" align="center">
+        {% if request.status == "accept" %}
+        <div class="card-header" style="background-color: #5cb85c;">
+          <h4>
+            Request for: {{request.tutor}}
+          </h4>
+        </div>
+        {% endif %} {% if request.status == "No choice" %}
         <div class="card-header">
           <h4>
             Request for: {{request.tutor}}
           </h4>
         </div>
+        {% endif %} {% if request.status == "deny" %}
+        <div class="card-header" style="background-color: #d9534f;">
+          <h4>
+            Request for: {{request.tutor}}
+          </h4>
+        </div>
+        {% endif %}
         <div class="card-body">
           <h4 class="card-title">Details:</h4>
           <h5 class="card-text">

@@ -23,6 +23,16 @@ footer {
   width: 100%;
 }
 
+#pfooter {
+  position: absolute;
+  bottom: 0;
+  height: 5rem;
+  background-color: #c3c3c3;
+  color: white;
+  text-align: center;
+  width: 70%;
+}
+
 .form69 {
   margin-left: 100px;
   margin-right: 100px;
