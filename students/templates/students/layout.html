@@ -21,24 +21,49 @@
   <div id="page">
     <div id="wrapper">
       <header class="polls-header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="nav-link" href="/students">home</a>
-          <a class="nav-link" href="/students/requests">requests</a>
-          <a class="nav-link" href="/students/profile">my student profile</a>
-          {% if user.is_authenticated %}
-          <a class="nav-link" href="{% url 'students:logout'%}"
-            >Logout {{user.get_username}}</a
-          >
-          {% endif %}
-        </nav>
+          <div class="flex-grid">
+            <div class="col1">
+              <a href="/students">
+                <img src="/../static/images/logo.jpg" width="50" height="50" alt="">
+              </a>
+            </div>
+            <div class="col1">          
+              <nav class="navbar navbar-light" style="background-color: #ffffff;">
+              <a class="nav-link" href="/students"><h4>Home</h4></a>
+              <a class="nav-link" href="{% url 'students:request_view' %}"
+              ><h4>
+                Requests
+              </h4></a
+              >
+              <a class="nav-link" href="{% url 'students:profile' user.username %}"
+              ><h4>
+                Student Profile
+              </h4></a
+              >
+              </nav>
+            </div>
+            <div class="col3">
+            <nav class="navbar navbar-light" style="background-color: #ffffff;">
+              {% if user.is_authenticated %}
+                <form action="{% url 'students:logout'%}">
+                  <button class="btn btn-outline-success my-2 my-sm-0" href="{% url 'students:logout'%}"
+                    ><h4>
+                      Logout
+                    </h4></a
+                  >
+                </form>
+              {% endif %}
+            </nav>
+          </div>
+        </div>
       </header>
       <br />
       <body id="body">
         {% block content %} {% endblock %}
       </body>
     </div>
-    <footer>
-      Quick Tutor | @ 2020
-    </footer>
-  </div>
+  <footer>
+    <div>Quick Tutor | @ 2020</div>
+    <a>Contact: 1-800-234-1234</a>
+  </footer>
 </html>

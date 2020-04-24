@@ -26,7 +26,9 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 def home(request):
     user = TutorSignup.objects.get(user=request.user)
     status = user.status
-    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status}) 
+    latitude = user.latitude
+    longitude = user.longitude
+    return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status, 'latitude': latitude, 'longitude': longitude}) 
 
 def logoutview(request):
     logout(request)
@@ -81,12 +83,14 @@ def deactivate(request):
 @login_required(login_url='students:landing')
 def edit_form(request):
     if request.method == 'POST':
+        name = request.POST['name']
         phone = request.POST['phone_number']
         classes = request.POST['classes']
         subjects = request.POST.get("subjects")  
         pay = request.POST['pay']
         payment_method = request.POST.get("payment_method")  
         user = TutorSignup.objects.get(user=request.user)
+        user.name = name
         user.phone_number = phone
         user.classes = classes
         user.subjects = subjects
@@ -108,6 +112,7 @@ def signup_form(request):
             return redirect('/tutors/signup')
         except TutorSignup.DoesNotExist or IntegrityError or MultiValueDictKeyError: 
             if form.is_valid():
+                name = request.POST['name']
                 phone = request.POST['phone_number']
                 classes = request.POST['classes']
                 subjects = request.POST['subjects']            
@@ -116,10 +121,9 @@ def signup_form(request):
                 latitude = None
                 status = False
                 payment_method = request.POST['payment_method']
-                user_object = TutorSignup.objects.create(user=request.user, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
+                user_object = TutorSignup.objects.create(user=request.user, name=name, phone_number = phone, classes = classes, subjects = subjects, pay = pay, payment_method = payment_method, longitude = longitude, latitude = latitude)
                 user_object.save()
-        return render(request, 'tutors/home.html')
-
+        return HttpResponseRedirect('/tutors')
     else:
         form = TutorSignupForm()
     return render(request, 'tutors/signup.html', {'form': form}) 

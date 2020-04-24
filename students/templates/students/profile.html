@@ -3,18 +3,22 @@
 <html>
   {% load static %}
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <link
       rel="stylesheet"
       type="text/css"
       href="{% static 'students/format.css' %}"
     />
-    <link 
+    <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
-    <link  
-      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    />
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -26,91 +30,145 @@
   </head>
   <br />
   <body>
-    
-    <!-- Modal Stuff -->
-    <div class="modal" id="edit">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Edit Profile</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form id="edit" role="form" method="POST" action="/students/edit">
-              {% csrf_token %}
-              {% for p in profile_list %}
-              <div class="form-group">
-                <label class="phone_number">Phone Number</label>
-                <div>
-                  <input type="text" class="form-control input-lg" name="phone_number" value="{{p.phone_number}}">
+    <div id="profile">
+      <!-- Modal Stuff -->
+      <div class="modal" id="edit">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Edit Profile</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form id="edit" role="form" method="POST" action="/students/edit">
+                {% csrf_token %} {% for p in profile_list %}
+                <div class="form-group">
+                  <label class="name">Name</label>
+                  <div>
+                    <input
+                      type="text"
+                      class="form-control input-lg"
+                      name="name"
+                      value="{{p.name}}"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="classes">Classes</label>
-                <div>
-                  <input type="text-box" class="form-control input-lg" name="classes" value="{{p.classes}}">
+                <div class="form-group">
+                  <label class="phone_number">Phone Number</label>
+                  <div>
+                    <input
+                      type="text"
+                      class="form-control input-lg"
+                      name="phone_number"
+                      value="{{p.phone_number}}"
+                    />
+                  </div>
                 </div>
-              </div>
-              {% endfor %}
-              <button type="submit" class="btn btn-success">Make Changes</button>
-            </form>
+                <div class="form-group">
+                  <label class="classes">Classes</label>
+                  <div>
+                    <input
+                      type="text-box"
+                      class="form-control input-lg"
+                      name="classes"
+                      value="{{p.classes}}"
+                    />
+                  </div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">
+                  Make Changes
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <script>
-      $('#edit').on('hide.bs.modal', function () { 
-      location.reload()
-      });
+      <script>
+        $("#edit").on("hide.bs.modal", function () {
+          location.reload();
+        });
       </script>
-    
-    {% if profile_list %}
-    <ul class="list-group">
-      {% for p in profile_list %}
-      <div class="panel panel-info">      
-        <div class="panel-heading">
-          <h3 class="panel-title" style="text-align:center">{{p.user}}</h3>
-        </div>          
-        <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" class="img-circle img-responsive"> </div>
-        <div class=" col-md-9 col-lg-9 ">         
-          <table class="table table-user-information">
-            <tbody>
-              <tr>
-                <td style="text-align:center">Classes:</td>
-                <td style="text-align:center">{{p.classes}}</td>
-              </tr>
-              <tr>
-                <td style="text-align:center">Phone Number</td>
-                <td style="text-align:center">{{p.phone_number}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                </td>
-                <td align="right">
-                  <!--Modal button-->
-                  {% if hasother == 'yes' %}
-                  <a type="button" class="btn btn-primary" href="{% url 'tutors:myprofile' %}">Tutor Profile</a>
-                  {%else%}
-                  <a type="button" class="btn btn-primary" href="{% url 'tutors:signup' %}">Make Tutor Profile</a>
-                  {%endif%}
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">
-                  Edit Profile
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          
+
+      {% if profile_list %}
+      <ul class="list-group">
+        {% for p in profile_list %}
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <h4 style="text-align: center;">
+                {{p.name}}
+              </h4>
+            </h3>
+          </div>
+          <div
+            class="col-md-3 col-lg-3"
+            align="center"
+            style="margin-top: 2rem; margin-bottom: 2rem;"
+          >
+            <img
+              src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+              height="150"
+              width="150"
+            />
+          </div>
+          <div class="col-md-9 col-lg-9" style="margin-top: 2rem;">
+            <table class="table table-user-information">
+              <tbody>
+                <tr>
+                  <td style="text-align: center;">Classes:</td>
+                  <td style="text-align: center;">{{p.classes}}</td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">Phone Number</td>
+                  <td style="text-align: center;">{{p.phone_number}}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td align="right">
+                    <!--Modal button-->
+                    {% if hasother == 'yes' %}
+                    <a
+                      style="margin-top: 1rem;"
+                      type="button"
+                      class="btn btn-primary"
+                      href="{% url 'tutors:myprofile' %}"
+                      >Tutor Profile</a
+                    >
+                    {%else%}
+                    <a
+                      style="margin-top: 1rem;"
+                      type="button"
+                      class="btn btn-primary"
+                      href="{% url 'tutors:signup' %}"
+                      >Make Tutor Profile</a
+                    >
+                    {%endif%}
+                    <button
+                      style="margin-top: 1rem;"
+                      type="button"
+                      class="btn btn-success"
+                      data-toggle="modal"
+                      data-target="#edit"
+                    >
+                      Edit Profile
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>nothing in database</p>
-    {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>Your profile isn't in the database.</p>
+      {% endif %}
+    </div>
   </body>
 </html>
 
