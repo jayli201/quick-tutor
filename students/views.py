@@ -163,7 +163,7 @@ def request_view(request):
     template_name = 'students/requests.html'
     context_object_name = 'requests_list'
 
-    requests = Request.objects.filter(student=request.user)
+    requests = Request.objects.filter(student=request.user).order_by('-time')
 
     return render(request, 'students/requests.html', {'requests_list': requests}) 
 

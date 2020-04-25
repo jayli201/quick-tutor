@@ -3,90 +3,86 @@
 <!DOCTYPE html>
 <div align="center">
   <html lang="en">
-    {% load static %}
-    <head>
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="{% static 'tutors/format.css' %}"
-      />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <title>Current Requests</title>
-    </head>
-    <body ALIGN="center">
-      {% if requests_list %} {% for request in requests_list %}
-      {%if request.status != "deny"%}
-      <div class="card w-50" align="center">
-        {% if request.status == "accept" %}
-        <div class="card-header" style="background-color: #5cb85c;">
-          <h4>
-            Request from: {{request.student}}
-          </h4>
-        </div>
-        {% endif %} {% if request.status == "No choice" %}
-        <div class="card-header">
-          <h4>
-            Request from: {{request.student}}
-          </h4>
-        </div>
-        {% endif %} {% if request.status == "deny" %}
-        <div class="card-header" style="background-color: #d9534f;">
-          <h4>
-            Request from: {{request.student}}
-          </h4>
-        </div>
-        {% endif %}
-        <div class="card-body">
-          <h4 class="card-title">Details:</h4>
-          <h5 class="card-text">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                Status: {{request.status}}
-              </li>
-              <li class="list-group-item">
-                Time: {{request.time}}
-              </li>
-            </ul>
-          </h5>
-          <a
-            href="/students/profile/{{request.student}}"
-            target="_blank"
-            title="Opens in a new window"
-            class="btn btn-primary"
-            >{{request.student}}'s profile</a
-          >
-        </div>
-        {% if request.status == "No choice" %}
-        <form action="{% url 'tutors:request_action' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="request_id" value="{{request.id}}" />
-          <input type="hidden" name="action" value="accept" />
-          <button type="submit" class="btn btn-success">
-            Accept
-          </button>
-        </form>
-        <form action="{% url 'tutors:request_action' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="request_id" value="{{request.id}}" />
-          <input type="hidden" name="action" value="deny" />
-          <button type="submit" class="btn btn-danger">
-            Deny
-          </button>
-        </form>
-        {% else %}
-        <button type="disabled" class="btn btn-success">Accepted! Waiting For Student Rating</button>
-        {% endif %}
+  {% load static %}
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'tutors/format.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Current Requests</title>
+  </head>
+
+  <body ALIGN="center">
+    {% if requests_list %} {% for request in requests_list %}
+    {%if request.status != "deny"%}
+    <div class="card w-50" align="center">
+      {% if request.status == "accept" %}
+      <div class="card-header" style="background-color: #5cb85c;">
+        <h4>
+          Request from: {{request.student}}
+        </h4>
       </div>
-      <br />
-      {%endif%}
-      {% endfor %}
-       {% else %}
-      <h4>No current requests. Keep your eye out for student requests!</h4>
+      {% endif %} {% if request.status == "No choice" %}
+      <div class="card-header">
+        <h4>
+          Request from: {{request.student}}
+        </h4>
+      </div>
+      {% endif %} {% if request.status == "deny" %}
+      <div class="card-header" style="background-color: #d9534f;">
+        <h4>
+          Request from: {{request.student}}
+        </h4>
+      </div>
       {% endif %}
-    </body>
+      <div class="card-body">
+        <h4 class="card-title">Details:</h4>
+        <h5 class="card-text">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Status: {{request.status}}
+            </li>
+            <li class="list-group-item">
+              Time: {{request.time}}
+            </li>
+          </ul>
+        </h5>
+        <a href="/students/profile/{{request.student}}" target="_blank" title="Opens in a new window"
+          class="btn btn-primary">{{request.student}}'s profile</a>
+      </div>
+      {% if request.status == "No choice" %}
+      <form action="{% url 'tutors:request_action' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="request_id" value="{{request.id}}" />
+        <input type="hidden" name="action" value="accept" />
+        <button type="submit" class="btn btn-success">
+          Accept
+        </button>
+      </form>
+      <form action="{% url 'tutors:request_action' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="request_id" value="{{request.id}}" />
+        <input type="hidden" name="action" value="deny" />
+        <button type="submit" class="btn btn-danger">
+          Deny
+        </button>
+      </form>
+      {% else %}
+      <div class="card-footer" style="background-color: #5cb85c;">
+        Accepted! Waiting For Student Rating
+      </div>
+      {% endif %}
+    </div>
     <br />
-    <br />
-    <br />
+    {%endif%}
+    {% endfor %}
+    {% else %}
+    <h4>No current requests. Keep your eye out for student requests!</h4>
+    {% endif %}
+  </body>
+  <br />
+  <br />
+  <br />
+
   </html>
 </div>
 

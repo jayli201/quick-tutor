@@ -154,7 +154,7 @@ def request_view(request):
     template_name = 'tutors/requests.html'
     context_object_name = 'requests_list'
 
-    requests = Request.objects.filter(tutor=request.user)
+    requests = Request.objects.filter(tutor=request.user).order_by('-time')
 
     return render(request, 'tutors/requests.html', {'requests_list': requests}) 
 

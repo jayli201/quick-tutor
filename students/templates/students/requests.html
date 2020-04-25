@@ -1,15 +1,8 @@
 {% extends "./layout.html" %} {% block content %}
 
-<link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-/>
-<link
-  href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
-  rel="stylesheet"
-  id="bootstrap-css"
-/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" />
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -23,6 +16,7 @@
     text-align: center;
     width: 100%;
   }
+
   form {
     text-align: center;
   }
@@ -31,94 +25,84 @@
 <!DOCTYPE html>
 <div align="center">
   <html lang="en">
-    {% load static %}
-    <head>
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="{% static 'students/format.css' %}"
-      />
-      <title>Current Requests</title>
-    </head>
-    <body>
-      {% if requests_list %} {% for request in requests_list %}
-      <div class="card w-50" align="center">
-        {% if request.status == "accept" %}
-        <div class="card-header" style="background-color: #5cb85c;">
-          <h4>
-            Request for: {{request.tutor}}
-          </h4>
+  {% load static %}
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'students/format.css' %}" />
+    <title>Current Requests</title>
+  </head>
+
+  <body>
+    {% if requests_list %} {% for request in requests_list %}
+    <div class="card w-50" align="center">
+      {% if request.status == "accept" %}
+      <div class="card-header" style="background-color: #5cb85c;">
+        <h4>
+          Request for: {{request.tutor}}
+        </h4>
+      </div>
+      {% endif %} {% if request.status == "No choice" %}
+      <div class="card-header">
+        <h4>
+          Request for: {{request.tutor}}
+        </h4>
+      </div>
+      {% endif %} {% if request.status == "deny" %}
+      <div class="card-header" style="background-color: #d9534f;">
+        <h4>
+          Request for: {{request.tutor}}
+        </h4>
+      </div>
+      {% endif %}
+      <div class="card-body">
+        <h4 class="card-title">Details:</h4>
+        <h5 class="card-text">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Status: {{request.status}}
+            </li>
+            <li class="list-group-item">
+              Time: {{request.time}}
+            </li>
+          </ul>
+        </h5>
+        <div>
+          <a href="/tutors/profile/{{request.tutor}}" target="_blank" title="Opens in a new window"
+            class="btn btn-primary">{{request.tutor}}'s profile</a>
         </div>
-        {% endif %} {% if request.status == "No choice" %}
-        <div class="card-header">
-          <h4>
-            Request for: {{request.tutor}}
-          </h4>
-        </div>
-        {% endif %} {% if request.status == "deny" %}
-        <div class="card-header" style="background-color: #d9534f;">
-          <h4>
-            Request for: {{request.tutor}}
-          </h4>
-        </div>
-        {% endif %}
-        <div class="card-body">
-          <h4 class="card-title">Details:</h4>
-          <h5 class="card-text">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                Status: {{request.status}}
-              </li>
-              <li class="list-group-item">
-                Time: {{request.time}}
-              </li>
-            </ul>
-          </h5>
-          <div>
-            <a
-              href="/tutors/profile/{{request.tutor}}"
-              target="_blank"
-              title="Opens in a new window"
-              class="btn btn-primary"
-              >{{request.tutor}}'s profile</a
-            >
-          </div>
-          <br />
-          <div>
-            {% if request.status == "accept" %} {% csrf_token %}
-            <button
-              type="button"
-              onclick="save('{{request.id}}')"
-              class="btn btn-danger"
-              data-toggle="modal"
-              data-target="#rate"
-            >
+        <br />
+        <div>
+          {% if request.status == "accept" %} {% csrf_token %}
+          <button type="button" onclick="save('{{request.id}}')" class="btn btn-danger" data-toggle="modal"
+            data-target="#rate">
+            Close Request
+          </button>
+          {% endif %}
+          {% if request.status == "deny" %}
+          <form action="{% url 'students:request_close' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="requ" value="{{request.id}}" />
+            <input type="hidden" name="options" value="6" />
+            <button type="submit" class="btn btn-danger">
               Close Request
             </button>
-            {% else %}
-            <form action="{% url 'students:request_close' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="requ" value="{{request.id}}"/>
-              <input type="hidden" name="options" value="6"/>
-              <button type="submit" class="btn btn-danger">
-                Close Request
-              </button>
-            </form>
-            {%endif%}
-          </div>
+          </form>
+          {%endif%}
         </div>
       </div>
-      <br />
-      {% endfor %} {% else %}
-      <h4>
-        No current requests. Find a tutor on the homepage and request their
-        help!
-      </h4>
-      {% endif %}
-    </body>
+    </div>
     <br />
-    <br />
-    <br />
+    {% endfor %} {% else %}
+    <h4>
+      No current requests. Find a tutor on the homepage and request their
+      help!
+    </h4>
+    {% endif %}
+  </body>
+  <br />
+  <br />
+  <br />
+
   </html>
 </div>
 
@@ -136,13 +120,7 @@
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-        <form
-          class
-          id="rate"
-          role="form"
-          method="POST"
-          action="{% url 'students:request_close' %}"
-        >
+        <form class id="rate" role="form" method="POST" action="{% url 'students:request_close' %}">
           {% csrf_token %}
           <div class="form-group">
             <div>
@@ -153,54 +131,23 @@
             <div class="justify-content-center">
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="1"
-                    autocomplete="off"
-                    value="1"
-                  />
+                  <input type="radio" name="options" id="1" autocomplete="off" value="1" />
                   1
                 </label>
                 <label class="btn btn-secondary">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="2"
-                    autocomplete="off"
-                    value="2"
-                  />
+                  <input type="radio" name="options" id="2" autocomplete="off" value="2" />
                   2
                 </label>
                 <label class="btn btn-secondary">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="3"
-                    autocomplete="off"
-                    value="3"
-                  />
+                  <input type="radio" name="options" id="3" autocomplete="off" value="3" />
                   3
                 </label>
                 <label class="btn btn-secondary">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="4"
-                    autocomplete="off"
-                    value="4"
-                  />
+                  <input type="radio" name="options" id="4" autocomplete="off" value="4" />
                   4
                 </label>
                 <label class="btn btn-secondary">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="5"
-                    autocomplete="off"
-                    value="5"
-                    checked="checked"
-                  />
+                  <input type="radio" name="options" id="5" autocomplete="off" value="5" checked="checked" />
                   5
                 </label>
               </div>
