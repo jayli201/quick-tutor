@@ -31,6 +31,11 @@ def home(request):
     return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status, 'latitude': latitude, 'longitude': longitude}) 
 
 def logoutview(request):
+    user = TutorSignup.objects.get(user=request.user)
+    user.longitude = None
+    user.latitude = None
+    user.status = False
+    user.save()
     logout(request)
     return redirect('students:landing')
 
