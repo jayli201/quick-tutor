@@ -105,9 +105,14 @@
               <div class="form-group">
                 <label for="subjects">Subjects</label>
                 <select name="subjects">
-                  <option value = "math" {%if p.subjects == "math" %}selected{%endif%}>math</option>
                   <option value = "english" {%if p.subjects == "english" %}selected{%endif%}>english</option>
-                  <option value = "science" {%if p.subjects == "science" %}selected{%endif%}>science</option>
+                  <option value = "engineering" {%if p.subjects == "engineering" %}selected{%endif%}>engineering</option>
+                  <option value = "humanities" {%if p.subjects == "humanities" %}selected{%endif%}>humanities</option>
+                  <option value = "language" {%if p.subjects == "language" %}selected{%endif%}>language</option>
+                  <option value = "math" {%if p.subjects == "math" %}selected{%endif%}>math</option>
+                  <option value = "social sciences" {%if p.subjects == "social sciences" %}selected{%endif%}>social sciences</option>
+                  <option value = "sciences" {%if p.subjects == "sciences" %}selected{%endif%}>sciences</option>
+                  <option value = "other" {%if p.subjects == "other" %}selected{%endif%}>other</option>
                 </select>
               </div>
               <div class="form-group">

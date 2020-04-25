@@ -8,9 +8,14 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
 SUBJECT_CHOICES = (
-    ('science','science'),
-    ('math', 'math'),
     ('english','english'),
+    ('engineering','engineering'),
+    ('humanities','humanities'),
+    ('language','language'),
+    ('math', 'math'),
+    ('social sciences','social sciences'),
+    ('sciences','sciences'),
+    ('other','other'),
 )
 
 PAY_CHOICES = (
