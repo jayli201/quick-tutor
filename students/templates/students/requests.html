@@ -85,7 +85,7 @@
           </div>
           <br />
           <div>
-            {% if request.status != "No choice" %} {% csrf_token %}
+            {% if request.status == "accept" %} {% csrf_token %}
             <button
               type="button"
               onclick="save('{{request.id}}')"
@@ -95,7 +95,16 @@
             >
               Close Request
             </button>
-            {% endif %}
+            {% else %}
+            <form action="{% url 'students:request_close' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="requ" value="{{request.id}}"/>
+              <input type="hidden" name="options" value="6"/>
+              <button type="submit" class="btn btn-danger">
+                Close Request
+              </button>
+            </form>
+            {%endif%}
           </div>
         </div>
       </div>

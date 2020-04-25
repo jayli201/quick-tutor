@@ -173,6 +173,9 @@ def request_close(request):
         request_id = int(request.POST['requ'])
         rate = int(request.POST['options'])
         specific_request = Request.objects.get(pk=request_id)
+        if rate == 6:
+            specific_request.delete()
+            return HttpResponseRedirect('/students/requests')
         tutor_ratee = TutorSignup.objects.get(user=specific_request.tutor)
         if tutor_ratee.rating != None:
             tutor_ratee.rating = (((float(tutor_ratee.rating) * tutor_ratee.num_rates)) + rate) /  (tutor_ratee.num_rates + 1)
