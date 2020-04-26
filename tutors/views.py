@@ -31,6 +31,11 @@ def home(request):
     return render(request, 'tutors/home.html', {'ACCESS_TOKEN': ACCESS_TOKEN, 'status': status, 'latitude': latitude, 'longitude': longitude}) 
 
 def logoutview(request):
+    user = TutorSignup.objects.get(user=request.user)
+    user.longitude = None
+    user.latitude = None
+    user.status = False
+    user.save()
     logout(request)
     return redirect('students:landing')
 
@@ -149,7 +154,7 @@ def request_view(request):
     template_name = 'tutors/requests.html'
     context_object_name = 'requests_list'
 
-    requests = Request.objects.filter(tutor=request.user)
+    requests = Request.objects.filter(tutor=request.user).order_by('-time')
 
     return render(request, 'tutors/requests.html', {'requests_list': requests}) 
 

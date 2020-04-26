@@ -163,7 +163,7 @@ def request_view(request):
     template_name = 'students/requests.html'
     context_object_name = 'requests_list'
 
-    requests = Request.objects.filter(student=request.user)
+    requests = Request.objects.filter(student=request.user).order_by('-time')
 
     return render(request, 'students/requests.html', {'requests_list': requests}) 
 
@@ -173,6 +173,9 @@ def request_close(request):
         request_id = int(request.POST['requ'])
         rate = int(request.POST['options'])
         specific_request = Request.objects.get(pk=request_id)
+        if rate == 6:
+            specific_request.delete()
+            return HttpResponseRedirect('/students/requests')
         tutor_ratee = TutorSignup.objects.get(user=specific_request.tutor)
         if tutor_ratee.rating != None:
             tutor_ratee.rating = (((float(tutor_ratee.rating) * tutor_ratee.num_rates)) + rate) /  (tutor_ratee.num_rates + 1)
