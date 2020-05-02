@@ -1,27 +1,74 @@
-{% extends "./layout.html" %} {% block content %}
-
 <html>
   {% load static %}
   <head>
     <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'tutors/format.css' %}"/> 
-    <link 
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh">
-    <link  
-      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'tutors/format.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <link
+    href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
+    rel="stylesheet"
+    id="bootstrap-css"
+  />
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Tutor Profile</title>
   </head>
+  {% if profile_list %}
+  {% for p in profile_list %}
+    {% if user.username == p.user.username %}
+    <header class="polls-header">
+      <div class="flex-grid">
+        <div class="col1">
+          <a href="/tutors">
+            <img src="/../static/images/logo.jpg" width="50" height="50" alt="">
+          </a>
+        </div>
+        <div class="col1">          
+          <nav class="navbar navbar-light" style="background-color: #ffffff;">
+          <a class="nav-link" href="/tutors"><h4>Home</h4></a>
+          <a class="nav-link" href="{% url 'tutors:request_view' %}"
+          >
+          <h4>
+            Requests
+          </h4></a
+          >
+          <a class="nav-link" href="{% url 'tutors:profile' user.username %}"
+          ><h4>
+            Tutor Profile
+          </h4></a
+          >
+          </nav>
+        </div>
+        <div class="col3">
+        <nav class="navbar navbar-light" style="background-color: #ffffff;">
+          {% if user.is_authenticated %}
+            <form action="{% url 'tutors:logout'%}">
+              <button class="btn btn-outline-success my-2 my-sm-0" href="{% url 'tutors:logout'%}"
+                ><h4>Logout</h4></a
+              >
+            </form>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </header>
   <br />
-  <body>
+  <div id="wrapper">
+  <body id="body">
+    <div id="profile">
     <!--Modal Stuff-->
     <div class="modal" id="edit">
       <div class="modal-dialog">
@@ -31,6 +78,17 @@
             <form id="edit" role="form" method="POST" action="/tutors/edit">
               {% csrf_token %}
               {% for p in profile_list %}
+              <div class="form-group">
+                <label class="name">Name</label>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control input-lg"
+                    name="name"
+                    value="{{p.name}}"
+                  />
+                </div>
+              </div>
               <div class="form-group">
                 <label class="phone_number">Phone Number</label>
                 <div>
@@ -46,10 +104,15 @@
               <!--Add the scroll down bar here-->
               <div class="form-group">
                 <label for="subjects">Subjects</label>
-                <select name="subjects" value="{{p.subjects}}">
-                  <option value = "science">science</option>
-                  <option value = "math">math</option>
-                  <option value = "english">english</option>
+                <select name="subjects">
+                  <option value = "english" {%if p.subjects == "english" %}selected{%endif%}>english</option>
+                  <option value = "engineering" {%if p.subjects == "engineering" %}selected{%endif%}>engineering</option>
+                  <option value = "humanities" {%if p.subjects == "humanities" %}selected{%endif%}>humanities</option>
+                  <option value = "language" {%if p.subjects == "language" %}selected{%endif%}>language</option>
+                  <option value = "math" {%if p.subjects == "math" %}selected{%endif%}>math</option>
+                  <option value = "social sciences" {%if p.subjects == "social sciences" %}selected{%endif%}>social sciences</option>
+                  <option value = "sciences" {%if p.subjects == "sciences" %}selected{%endif%}>sciences</option>
+                  <option value = "other" {%if p.subjects == "other" %}selected{%endif%}>other</option>
                 </select>
               </div>
               <div class="form-group">
@@ -60,10 +123,10 @@
               </div>
               <div class="form-group">
                 <label for="payment_method">Payment Method</label>
-                <select name="payment_method" value={{p.payment_method}}>
-                  <option value = "venmo">venmo</option>
-                  <option value = "cash">cash</option>
-                  <option value = "paypal">paypal</option>
+                <select name="payment_method">
+                  <option value = "venmo" {%if p.payment_method == "venmo" %}selected{%endif%}>venmo</option>
+                  <option value = "cash" {%if p.payment_method == "cash" %}selected{%endif%}>cash</option>
+                  <option value = "paypal" {%if p.payment_method == "paypal" %}selected{%endif%}>paypal</option>
                 </select>
               </div>
               {% endfor %}
@@ -73,15 +136,208 @@
         </div>
       </div>
     </div>
+    <script>
+      $('#edit').on('hide.bs.modal', function () { 
+      location.reload()
+      });
+      </script>
+        <!--Modal Stuff pt 2-->
+        <div class="modal" id="request">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
+        
     {% if profile_list %}
     <ul class="list-group">
       {% for p in profile_list %}
       <div class="panel panel-info">      
         <div class="panel-heading">
-          <h3 class="panel-title" style="text-align:center">Name Goes Here</h3>
+          <h3 class="panel-title">
+            <h4 style="text-align: center;">
+              {{p.name}}
+            </h4>
+          </h3>
         </div>          
-        <div class="col-md-3 col-lg-3" align="center"> <img alt="User Pic" src="https://cdn2.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png" class="img-circle img-responsive"> </div>
-        <div class=" col-md-9 col-lg-9 ">         
+        <div class="col-md-3 col-lg-3" align="center" style='margin-top:2rem;' > 
+          <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="150" width="150">        </div>
+        <div class=" col-md-9 col-lg-9 " style='margin-top:2rem;'>         
+          <table class="table table-user-information">
+            <tbody>
+              <tr>
+                <td style="text-align:center">Subjects:</td>
+                <td style="text-align:center">{{p.subjects}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Classes:</td>
+                <td style="text-align:center">{{p.classes}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Rate (per hour):</td>
+                <td style="text-align:center">${{p.pay}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Preferred Method of Payment:</td>
+                <td style="text-align:center">{{p.payment_method}}</td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Phone Number:</td>
+                <td style="text-align:center">{{p.phone_number}}
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center">Rating:</td>
+                {% if p.rating %}
+                <td style="text-align:center">{{p.rating}}</td>
+                {% else%}
+                <td style="text-align:center">No Ratings</td>
+                {%endif%}
+              </tr>
+              <tr>
+                {% if user.username != p.user.username %}
+                <td align="right">
+                  <!--Modal button-->
+                  <!-- <form method="post"> -->
+                  {% csrf_token %}
+                  <a href="{% url 'tutors:request' p.user.username %}">
+                    <button type="submit" class="btn btn-success">Request!</button>
+                  </a>
+                  <!-- </form> -->
+                </td>
+                {% endif %}
+                {% if user.username == p.user.username %}
+                <td align="right">
+                  <!--Modal button-->
+                  {% if hasother == 'yes' %}
+                  <a style='margin-top:1rem;' type="button" class="btn btn-primary" href="{% url 'students:profile' %}">Student Profile</a>
+                  {%else%}
+                  <a style='margin-top:1rem;' type="button" class="btn btn-primary" href="{% url 'students:signup_form' %}">Make Student Profile</a>
+                  {%endif%}
+                  <button style='margin-top:1rem;' type="button" class="btn btn-success" data-toggle="modal" data-target="#edit" id="but">
+                  Edit Profile
+                  </button>
+                </td>
+                {% endif %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>Your profile isn't in the database.</p>
+    {% endif %}
+    </div>
+  </body>
+</div>
+  <footer id="pfooter">
+    <div>Quick Tutor | @ 2020</div>
+    <a>Contact: 1-800-234-1234</a>
+  </footer>
+{% else %} 
+<header class="polls-header" style="margin-bottom: 4rem;">
+  <div class="flex-grid">
+    <div class="col1">
+      <a href="/students">
+        <img src="/../static/images/logo.jpg" width="50" height="50" alt="">
+      </a>
+    </div>
+</div>
+</header>  
+<div id="wrapper">
+  <body id="body">
+    <div id="profile">
+    <!--Modal Stuff-->
+    <div class="modal" id="edit">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form id="edit" role="form" method="POST" action="/tutors/edit">
+              {% csrf_token %}
+              {% for p in profile_list %}
+              <div class="form-group">
+                <label class="name">Name</label>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control input-lg"
+                    name="name"
+                    value="{{p.name}}"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="phone_number">Phone Number</label>
+                <div>
+                  <input type="text" class="form-control input-lg" name="phone_number" value="{{p.phone_number}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="classes">Classes</label>
+                <div>
+                  <input type="text-box" class="form-control input-lg" name="classes" value="{{p.classes}}">
+                </div>
+              </div>
+              <!--Add the scroll down bar here-->
+              <div class="form-group">
+                <label for="subjects">Subjects</label>
+                <select name="subjects">
+                  <option value = "math" {%if p.subjects == "math" %}selected{%endif%}>math</option>
+                  <option value = "english" {%if p.subjects == "english" %}selected{%endif%}>english</option>
+                  <option value = "science" {%if p.subjects == "science" %}selected{%endif%}>science</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="pay">Pay</label>
+                <div>
+                  <input type="text" class="form-control input-lg" name="pay" value="{{p.pay}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select name="payment_method">
+                  <option value = "venmo" {%if p.payment_method == "venmo" %}selected{%endif%}>venmo</option>
+                  <option value = "cash" {%if p.payment_method == "cash" %}selected{%endif%}>cash</option>
+                  <option value = "paypal" {%if p.payment_method == "paypal" %}selected{%endif%}>paypal</option>
+                </select>
+              </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-success">Make Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('#edit').on('hide.bs.modal', function () { 
+      location.reload()
+      });
+      </script>
+        <!--Modal Stuff pt 2-->
+        <div class="modal" id="request">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div>
+        
+    {% if profile_list %}
+    <ul class="list-group">
+      {% for p in profile_list %}
+      <div class="panel panel-info">      
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <h4 style="text-align: center;">
+              {{p.name}}
+            </h4>
+          </h3>
+        </div>          
+        <div class="col-md-3 col-lg-3" align="center" style='margin-top:2rem;' > 
+          <img src="{{ p.user.socialaccount_set.all.0.get_avatar_url }}" height="150" width="150">        </div>
+        <div class=" col-md-9 col-lg-9 " style='margin-top:2rem;'>         
           <table class="table table-user-information">
             <tbody>
               <tr>
@@ -106,14 +362,25 @@
                 </td>
               </tr>
               <tr>
-                <td>
-                </td>
+                <td style="text-align:center">Rating:</td>
+                {% if p.rating %}
+                <td style="text-align:center">{{p.rating}}</td>
+                {% else%}
+                <td style="text-align:center">No Ratings</td>
+                {%endif%}
+              </tr>
+              <tr>
+                {% if user.username != p.user.username %}
                 <td align="right">
                   <!--Modal button-->
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" id="but">
-                    Edit Profile
-                  </button>
+                  <!-- <form method="post"> -->
+                  {% csrf_token %}
+                  <a href="{% url 'tutors:request' p.user.username %}">
+                    <button type="submit" class="btn btn-success">Request!</button>
+                  </a>
+                  <!-- </form> -->
                 </td>
+                {% endif %}
               </tr>
             </tbody>
           </table>
@@ -122,9 +389,16 @@
       {% endfor %}
     </ul>
     {% else %}
-    <p>nothing in database</p>
+    <p>Your profile isn't in the database.</p>
     {% endif %}
-  </body>
-</html>
+    </div>
+  </body>  
+  <footer id="pfooter">
+    <div>Quick Tutor | @ 2020</div>
+    <a>Contact: 1-800-234-1234</a>
+  </footer>
+  {% endif %}
 
-{% endblock %}
+{% endfor %}
+{% endif %}
+</html>

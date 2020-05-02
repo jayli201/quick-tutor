@@ -1,6 +1,6 @@
 from django.contrib import admin
  
-from .models import TutorSignup
+from .models import TutorSignup, Request
  
  
 class FeedbackAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ class FeedbackAdmin(admin.ModelAdmin):
  
  
 admin.site.register(TutorSignup)
+admin.site.register(Request)

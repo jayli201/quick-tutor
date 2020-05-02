@@ -45,7 +45,7 @@
     </style>
 
     <pre type="hidden" id="coordinates" class="coordinates"></pre>
-    <div id="map" style="width: 100%; height: 80%;"></div>
+    <div id="map" style="width: 85%; height: 70%;"></div>
     <script>
       var ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
       var coordinates = document.getElementById("coordinates");
@@ -53,7 +53,7 @@
       if (navigator.geolocation) {
         // getting current position and creating a map centered at current position
         navigator.geolocation.getCurrentPosition(
-          function(position) {
+          function (position) {
             mapboxgl.accessToken = ACCESS_TOKEN;
             var long = position.coords.longitude;
             var lat = position.coords.latitude;
@@ -61,12 +61,12 @@
               container: "map",
               style: "mapbox://styles/mapbox/streets-v11",
               center: [long, lat],
-              zoom: 14
+              zoom: 14,
             });
 
             // adding a marker indicating your location
             var marker = new mapboxgl.Marker({
-              draggable: true
+              draggable: true,
             })
               .setLngLat([long, lat])
               .setPopup(
@@ -77,13 +77,18 @@
             // mapping all the active tutors
             let tutors_list = "{{tutors_list|safe}}";
             let tutors = eval(tutors_list);
-            tutors.map(tutor => {
+            tutors.map((tutor) => {
+              console.log(tutor);
               var coord = [tutor.longitude, tutor.latitude];
               let marker = new mapboxgl.Marker()
                 .setLngLat(coord)
                 .setPopup(
                   new mapboxgl.Popup({ offset: 25 }).setHTML(
-                    "<div>" + tutor.phone + '<br> <a href="https://www.google.com/?gws_rd=ssl"> Request Tutor</a>'
+                    "<strong>" +
+                      tutor.name +
+                      '</strong><p><a href="/tutors/profile/' +
+                      tutor.name +
+                      '" target="_blank" title="Opens in a new window">View Profile</a>'
                   )
                 )
                 .addTo(map);
@@ -95,7 +100,7 @@
             }
             marker.on("dragend", onDragEnd);
           },
-          function(error) {
+          function (error) {
             alert("Enable location services.");
           },
           { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }

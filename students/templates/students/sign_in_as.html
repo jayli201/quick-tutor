@@ -1,0 +1,65 @@
+<link
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  crossorigin="anonymous"
+/>
+
+{% load socialaccount %} {% load static %}
+
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'students/format.css' %}"
+    />
+  </head>
+  <div id="top">
+    <div class="container">
+      <div class="row">
+        <a href="/">
+          <div class="col">
+            <img
+              src="/../static/images/logo.jpg"
+              width="50"
+              height="50"
+              alt=""
+            />
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="col text-center">
+    Sign in as a Student or Tutor?
+  </h1>
+  <div id="container">
+    <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            {% if student == "yes" %}
+            <a class="btn btn-primary btn-lg" href="/students" role="button"
+              >Student</a
+            >
+            {%endif%} {% if tutor == "yes" %}
+            <a class="btn btn-primary btn-lg" href="/tutors/" role="button"
+              >Tutor</a
+            >
+            {%endif%} {% if tutor == "no" and student == "no" %}
+            <a class="btn btn-primary btn-lg" href="choose" role="button"
+              >You Haven't Made an Account, Sign Up Here!</a
+            >
+            {%endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="lfooter">
+    <div>Quick Tutor | @ 2020</div>
+    <a>Contact: 1-800-234-1234</a>
+  </div>
+</html>
